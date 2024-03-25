@@ -6,6 +6,10 @@ body {
   margin: 0;
 }
 
+.leftMargin {
+  margin-left: 20px;
+}
+
 /* --------------------------------------- Navbar --------------------------------------- */
 nav {
   display: flex;
@@ -22,10 +26,6 @@ ul.navbar.subset {
 }
 .navbar.subset {
   margin: 0 5%;
-}
-button.login,
-.profile-link {
-  margin-left: 20px;
 }
 
 .modal {
@@ -46,3 +46,5 @@ button.login,
   border: 1px solid #888;
   width: 80%;
 }
+
+/* --- */
