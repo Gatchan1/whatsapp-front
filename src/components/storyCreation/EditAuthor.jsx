@@ -12,8 +12,8 @@ export default function EditAuthor({author}) {
     const updateAuthor = () => {
         const newStory = JSON.parse(JSON.stringify(story));
         for (let i = 0; i < story.length; i++) {
-            if (newStory[i][1] == author) {
-                newStory[i][1] = value;
+            if (newStory[i][2] == author) {
+                newStory[i][2] = value;
             }
         }
         setStory(newStory);
@@ -26,8 +26,9 @@ export default function EditAuthor({author}) {
     }
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-    <input onChange={(e) => setValue(e.target.value)} onKeyDown={handleKeyDown} value={value}/>
+    <form className="author" onSubmit={(e) => e.preventDefault()}>
+    <input onChange={(e) => setValue(e.target.value)} onKeyDown={handleKeyDown} size={value.length} value={value}/>
     </form>
   )
 }
+// I don't know how to further improve the input size...

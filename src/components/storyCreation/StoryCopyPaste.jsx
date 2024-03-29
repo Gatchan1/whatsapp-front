@@ -11,20 +11,20 @@ export default function StoryCopyPaste({ setCopyPasting }) {
 
   //TODO: proteger la entrada de datos que no encajen!!!
   const buildStory = () => {
-    // detectar cuantos autores distintos hay y hacer un array con sus valores unicos.
-    // al final story[i][1] será tal cual cada uno de esos autores!
     const newStory = [];
     const times = storyText.match(dateTimeGlobal);
 
     const dates = times.map((time) => {
       const noBrackets = time.slice(1, time.length - 1);
       const [timeString, dateStringWithoutSpace] = noBrackets.split(", ");
-      let [hours, minutes] = timeString.split(":"); //.map(Number);
-      const [day, month, year] = dateStringWithoutSpace.split("/"); //.map(Number);
+      let [hours, minutes] = timeString.split(":");
+      const [day, month, year] = dateStringWithoutSpace.split("/");
       // return new Date(year, month - 1, day, hours, minutes);
       if (minutes.length != 2) minutes = "0" + minutes;
-      return `${year}-${month}-${day} ${hours}:${minutes}`;
+      return new Date(`${year}-${month}-${day} ${hours}:${minutes}`);
+      // return {year, month, day, hours, minutes};
     });
+    console.log("dateees:", dates);
     const authors = messages.map((message) => {
       const index = message.search(/:\s/);
       return message.slice(0, index);
@@ -36,12 +36,12 @@ export default function StoryCopyPaste({ setCopyPasting }) {
     });
     for (let i = 0; i < messages.length; i++) {
       newStory[i] = [];
-      newStory[i][0] = false;
+      newStory[i][0] = false; //checkbox for date modification
       newStory[i][1] = dates[i];
       newStory[i][2] = authors[i];
       newStory[i][3] = comments[i];
     }
-    // console.log(newStory);
+    console.log("storyyy", newStory);
     setStory(newStory);
   };
 
@@ -50,6 +50,7 @@ export default function StoryCopyPaste({ setCopyPasting }) {
       buildStory();
       setCopyPasting(false); // this component will cease to be shown (see CreatePage.jsx)
     }
+    console.log("dateeee",new Date("2250-1-1"))
   }, [messages]);
 
   const handleRestructuring = (e) => {

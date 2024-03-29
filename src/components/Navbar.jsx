@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import Signup from "./Signup";
 import Login from "./Login";
 import { authContext } from "../contexts/auth.context";
@@ -15,7 +15,7 @@ export default function Navbar() {
       <li>
         <Link to="/">Homepageee</Link>
       </li>
-      <li className="profile-link">
+      <li className="profile-link left-margin">
         {isLoggedIn && <Link to={`/${user.name}`} >Profile page</Link>}
       </li>
       </ul>
@@ -24,7 +24,7 @@ export default function Navbar() {
           <button onClick={() => setShowSignup(true)} className="signup">
             Sign up
           </button>
-          <button onClick={() => setShowLogin(true)} className="login">
+          <button onClick={() => setShowLogin(true)} className="login left-margin">
             Log in
           </button>
           {showSignup && <Signup setShowSignup={setShowSignup} />}

@@ -9,7 +9,10 @@ export default function CreatePage() {
   const [showMenu, setShowMenu] = useState(true); // boolean
 
   useEffect(() => {
-    return setStory(null); //unmounting stage!
+    const cleanValues = () => {
+      setStory(null);
+    }
+    return cleanValues(); //unmounting stage!
   }, []);
 
   return (
@@ -30,7 +33,7 @@ export default function CreatePage() {
               setCopyPasting(false);
               setShowMenu(false);
             }}
-            className="leftMargin"
+            className="left-margin"
           >
             Start from scratch
           </button>

@@ -4,7 +4,7 @@ import EditAuthor from "./EditAuthor";
 
 export default function AuthorsPanel() {
   const { story } = useContext(storyCreationContext);
-  const currentAuthors = story.map((message) => message[1]);
+  const currentAuthors = story.map((message) => message[2]);
   const uniqueAuthors = [...new Set(currentAuthors)];
 
   return (

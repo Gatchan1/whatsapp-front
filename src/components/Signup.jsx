@@ -4,13 +4,13 @@ import { authContext } from "../contexts/auth.context";
 import Alert from "./Alert";
 
 export default function Signup({ setShowSignup }) {
+  const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [error, setError] = useState("");
   const [loginMessage, setLoginMessage] = useState("");
-  const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ export default function Signup({ setShowSignup }) {
       .post(`${baseUrl}/auth/signup`, user)
       .then(({ data }) => {
         console.log(data);
-        setLoginMessage("Successfully signed up! Proceeding to automatic log in..."); //TODO style flashy!
+        setLoginMessage("Successfully signed up! Automatically logging in..."); //TODO style flashy!
         setTimeout(login, 2000);
       })
       .catch((err) => setError("Could not finish the process, try again"));
