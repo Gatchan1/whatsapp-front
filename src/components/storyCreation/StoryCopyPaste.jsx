@@ -24,7 +24,7 @@ export default function StoryCopyPaste({ setCopyPasting }) {
       return new Date(`${year}-${month}-${day} ${hours}:${minutes}`);
       // return {year, month, day, hours, minutes};
     });
-    console.log("dateees:", dates);
+    // console.log("dateees:", dates);
     const authors = messages.map((message) => {
       const index = message.search(/:\s/);
       return message.slice(0, index);
@@ -41,7 +41,7 @@ export default function StoryCopyPaste({ setCopyPasting }) {
       newStory[i][2] = authors[i];
       newStory[i][3] = comments[i];
     }
-    console.log("storyyy", newStory);
+    // console.log("storyyy", newStory);
     setStory(newStory);
   };
 
@@ -50,7 +50,6 @@ export default function StoryCopyPaste({ setCopyPasting }) {
       buildStory();
       setCopyPasting(false); // this component will cease to be shown (see CreatePage.jsx)
     }
-    console.log("dateeee",new Date("2250-1-1"))
   }, [messages]);
 
   const handleRestructuring = (e) => {

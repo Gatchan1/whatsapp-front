@@ -1,13 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import { timeScrollContext } from "../../contexts/timeScroll.context";
 
-export default function InputNum({ delay, setDelay, hour }) {
+export default function InputNum({ delay, setDelay, unit, setExitHover }) {
   const { dateBegin, dateCompareBegin, dateEnd, dateCompareEnd } = useContext(timeScrollContext);
 
   const [isHover, setIsHover] = useState(false);
   // const [originalValue, setOriginalValue] = useState(false);
 
-  useEffect(() => {}, []);
+  const unitMethods = [
+    { unit: "hours", get: "getHours", set: "setHours" },
+    { unit: "minutes", get: "getMinutes", set: "setMinutes" },
+    { unit: "date", get: "getDate", set: "setDate" },
+    { unit: "month", get: "getMonth", set: "setMonth" },
+    { unit: "year", get: "getFullYear", set: "setFullYear" },
+  ];
+
+  const chooseUnitIndex = (timeUnit) => {
+    return unitMethods.findIndex((elem) => elem.unit == timeUnit);
+  };
 
   useEffect(() => {
     // console.log("max", max)
@@ -22,30 +32,36 @@ export default function InputNum({ delay, setDelay, hour }) {
     return () => window.removeEventListener("wheel", scrollInput);
   }, [isHover, delay]);
 
-  const canScrollDown = (amount = 1) => {
+  const canScrollDown = (amount = 2) => {
     //Scroll down = decrease time (move towards "beginning")
     const date = new Date(dateBegin);
-    if (hour) {
-      date.setHours(date.getHours() + delay - amount);
-      if (date > dateCompareBegin) {
-        return true;
-      } else return false;
-    }
+    let index = chooseUnitIndex(unit);
+    date[unitMethods[index].set](date[unitMethods[index].get]() - amount);
+    console.log("futura date", date)
+    if (date >= dateCompareBegin) {
+      return true;
+    } else return false;
   };
 
-  const canScrollUp = (amount = 1) => {
+  const canScrollUp = (amount = 2) => {
     //Scroll up = advance in time (move towards "end")
     const date = new Date(dateEnd);
-    if (hour) {
-      date.setHours(date.getHours() + delay + amount);
-      if (dateCompareEnd > date) {
-        return true;
-      } else return false;
-    }
+    let index = chooseUnitIndex(unit);
+    date[unitMethods[index].set](date[unitMethods[index].get]() + amount);
+    if (dateCompareEnd >= date) {
+      return true;
+    } else return false;
   };
 
   return (
-    <div id="inputNum" className="relative" onMouseLeave={() => setIsHover(false)}>
+    <div
+      id="inputNum"
+      className="relative"
+      onMouseLeave={() => {
+        setIsHover(false);
+        setExitHover((hover) => !hover);
+      }}
+    >
       <input
         value={delay}
         onChange={(e) => {
@@ -55,7 +71,7 @@ export default function InputNum({ delay, setDelay, hour }) {
       />
       {isHover && (
         <div className="column absolute" id="chevrons">
-          <button className="up" onClick={() => setDelay(delay + 1)} />
+          <button className="up" onClick={() => {setDelay(delay + 1)}} />
           {/* TODO put limits.... */}
           <button className="down" onClick={() => setDelay(delay - 1)} />
         </div>

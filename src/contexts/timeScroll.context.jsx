@@ -12,7 +12,6 @@ function TimeScrollProviderWrapper({ children }) {
   const [dateCompareBegin, setDateCompareBegin] = useState(new Date(0));
   const [dateEnd, setDateEnd] = useState();
   const [dateCompareEnd, setDateCompareEnd] = useState(new Date("2250-1-1"));
-  // const [refresh, setRefresh] = useState(true);
 
   const exposedValues = {
     hourDelay,

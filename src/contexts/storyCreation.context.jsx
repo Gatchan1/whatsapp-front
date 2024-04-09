@@ -8,7 +8,15 @@ function StoryCreationProviderWrapper({ children }) {
   //"story" is an array of the conversation messages.
   // Each message in "story" is structured like this: [time checkbox (is it checked: true/false), time, author, comment]
 
-  const exposedValues = { story, setStory, altStory, setAltStory };
+  const storyDeepCopy = () => {
+    const newStory = JSON.parse(JSON.stringify(story));
+    newStory.forEach(element => {
+      element[1] = new Date(element[1]);
+    });
+    return newStory;
+  }
+
+  const exposedValues = { story, setStory, altStory, setAltStory, storyDeepCopy };
   return <storyCreationContext.Provider value={exposedValues}>{children}</storyCreationContext.Provider>;
 }
 

@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
 export default function EditTime({ checkbox, time, index, setShowScrollPanel }) {
-  const { story, setStory } = useContext(storyCreationContext);
-//   const [value, setValue] = useState(time);
+  const { story, altStory, setStory } = useContext(storyCreationContext);
   const [showArrows, setShowArrows] = useState(false);
+  const [value, setValue] = useState("Sun, March 31, 2024 at 1:57 PM");
 
   useEffect(() => {
     let firstGroup = false;
@@ -17,7 +17,18 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
     });
     if (firstGroup && !secondGroup) setShowScrollPanel(true);
     else setShowScrollPanel(false);
-  }, [story]);
+
+    setValue(
+      new Intl.DateTimeFormat("en", {
+        weekday: "short",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      }).format(time)
+    );
+  }, [story, altStory]);
 
   const handleCheckbox = () => {
     const newStory = JSON.parse(JSON.stringify(story));
@@ -53,8 +64,7 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
         </div>
         <input className="checkbox" type="checkbox" checked={checkbox} onChange={handleCheckbox} onMouseEnter={() => setShowArrows(true)} />
       </div>
-      <input defaultValue={time} readOnly /> {/* TODO, test if it changes nicely? */}
-
+      <input size={value.length - 3} value={value} readOnly />
     </form>
   );
 }
