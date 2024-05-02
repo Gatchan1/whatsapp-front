@@ -9,12 +9,8 @@ export default function StoryWrite() {
   const [showScrollPanel, setShowScrollPanel] = useState(false);
 
   useEffect(() => {
-    // const newStory = JSON.parse(JSON.stringify(story));
-    // newStory.forEach(element => {
-    //   element[1] = new Date(element[1]);
-    // });
     setTempStory(storyCopy());
-    console.log("copying altstoryyy", storyCopy())
+    //console.log("copying altstoryyy", storyCopy())
   }, [story]);
 
   return (
