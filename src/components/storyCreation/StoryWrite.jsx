@@ -13,11 +13,24 @@ export default function StoryWrite() {
     //console.log("copying altstoryyy", storyCopy())
   }, [story]);
 
+  useEffect(() => {
+    let firstGroup = false;
+    let gap = false;
+    let secondGroup = false;
+    story.forEach((message) => {
+      if (message[0] && !firstGroup) firstGroup = true;
+      if (!message[0] && firstGroup) gap = true;
+      if (message[0] && gap) secondGroup = true;
+    });
+    if (firstGroup && !secondGroup) setShowScrollPanel(true);
+    else setShowScrollPanel(false);
+  }, [story]);
+
   return (
     <div>
       <h3>StoryWrite</h3>
       {showScrollPanel && <EditTimePanel />}
-      {tempStory && tempStory.map((message, i) => <Message key={i} index={i} message={message} setShowScrollPanel={setShowScrollPanel} />)}
+      {tempStory && tempStory.map((message, i) => <Message key={i} index={i} message={message} />)}
       <br />
 
       {story && <AuthorsPanel />}

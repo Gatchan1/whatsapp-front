@@ -32,8 +32,7 @@ export default function InputNum({ delay, setDelay, unit }) {
     return unitMethods.findIndex((elem) => elem.unit == timeUnit);
   };
 
-  // set beginDelay and endDelay
-  const handleMouseEnter = () => {
+  const setBeginAndEndDelays = () => {
   //dateBegin is the date corresponding to the first ticked box.
   //dateEnd is the date corresponding to the last ticked box.
   /*dateCompareBegin is the date corresponding to the date PREVIOUS to the first ticked one
@@ -54,13 +53,10 @@ export default function InputNum({ delay, setDelay, unit }) {
     if (0 <= index && index <= 1) {
       const millisecondsBegin = originalDateBegin - dateCompareBegin;
       const millisecondsEnd = dateCompareEnd - originalDateEnd;
-      console.log("originalDateBegin", originalDateBegin);
-      // console.log("setting begin delay", - Math.floor(millisecondsBegin / unitMethods[index].milliseconds))
       setBeginDelay(-Math.floor(millisecondsBegin / unitMethods[index].milliseconds));
       setEndDelay(Math.floor(millisecondsEnd / unitMethods[index].milliseconds));
-      console.log("setting end delay", Math.floor(millisecondsEnd / unitMethods[index].milliseconds));
     } else {
-      // Months and years don't have the same amount of milliseconds! We need a different way.
+      // Months and years don't have the same amount of milliseconds! We need a different way:
       let newBeginDelay = 0;
       let newEndDelay = 0;
       let tryDate = new Date(originalDateBegin);
@@ -70,10 +66,8 @@ export default function InputNum({ delay, setDelay, unit }) {
           if (tryDate >= dateCompareBegin) newBeginDelay--;
         }
         setBeginDelay(newBeginDelay);
-        //console.log("beginDelay!", newBeginDelay);
       } else {
         setBeginDelay(delay);
-        //console.log("beginDelay!", delay);
       }
       tryDate = new Date(originalDateEnd);
       if (dateCompareEnd > tryDate) {
@@ -82,10 +76,8 @@ export default function InputNum({ delay, setDelay, unit }) {
           if (dateCompareEnd >= tryDate) newEndDelay++;
         }
         setEndDelay(newEndDelay);
-        //console.log("endDelay!", newEndDelay);
       } else {
         setEndDelay(delay);
-        //console.log("endDelay!", delay);
       }
     }
   };
@@ -102,7 +94,7 @@ export default function InputNum({ delay, setDelay, unit }) {
           console.log(e.target.value);
           if (Number(e.target.value) <= endDelay && Number(e.target.value) >= beginDelay) setDelay(Number(e.target.value));
         }}
-        onMouseEnter={() => handleMouseEnter()}
+        onMouseEnter={setBeginAndEndDelays}
       />
       {isHover && (
         <div className="column absolute" id="chevrons">

@@ -2,24 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { timeScrollContext } from "../../contexts/timeScroll.context";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
-export default function EditTime({ checkbox, time, index, setShowScrollPanel }) {
+export default function EditTime({ checkbox, time, index }) {
   const { story, tempStory, setStory, storyCopy } = useContext(storyCreationContext);
   const { setDateCompareBegin, setDateCompareEnd } = useContext(timeScrollContext);
   const [showArrows, setShowArrows] = useState(false);
   const [value, setValue] = useState("Sun, March 31, 2024 at 1:57 PM");
 
   useEffect(() => {
-    let firstGroup = false;
-    let gap = false;
-    let secondGroup = false;
-    story.forEach((message) => {
-      if (message[0] && !firstGroup) firstGroup = true;
-      if (!message[0] && firstGroup) gap = true;
-      if (message[0] && gap) secondGroup = true;
-    });
-    if (firstGroup && !secondGroup) setShowScrollPanel(true);
-    else setShowScrollPanel(false);
-
     setValue(
       new Intl.DateTimeFormat("en", {
         weekday: "short",
@@ -30,7 +19,7 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
         minute: "numeric",
       }).format(time)
     );
-  }, [story, tempStory]);
+  }, [tempStory]);
 
   const assignDateLimits = (newStory) => {
     const dateBeginIndex = newStory.findIndex((message) => message[0]); //first match with checked tickbox
@@ -50,14 +39,14 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
   }
 
   const handleCheckbox = () => {
-    const newStory = storyCopy();
+    const newStory = storyCopy(tempStory);
     newStory[index][0] = !checkbox;
     setStory(newStory);
     assignDateLimits(newStory);
   };
 
   const handleUpstream = () => {
-    const newStory = storyCopy();
+    const newStory = storyCopy(tempStory);
     for (let i = 0; i <= index; i++) {
       newStory[i][0] = !checkbox;
     }
@@ -65,7 +54,7 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
     assignDateLimits(newStory);
   };
   const handleDownstream = () => {
-    const newStory = storyCopy();
+    const newStory = storyCopy(tempStory);
     for (let i = index; i < story.length; i++) {
       newStory[i][0] = !checkbox;
     }

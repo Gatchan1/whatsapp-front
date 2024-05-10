@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
 export default function EditAuthor({author}) {
-    const { story, setStory } = useContext(storyCreationContext);
+    const { story, setStory, storyCopy } = useContext(storyCreationContext);
     const [value, setValue] = useState(author);
 
     useEffect(()=>{
@@ -10,7 +10,7 @@ export default function EditAuthor({author}) {
     },[story])
 
     const updateAuthor = () => {
-        const newStory = JSON.parse(JSON.stringify(story));
+        const newStory = storyCopy();
         for (let i = 0; i < story.length; i++) {
             if (newStory[i][2] == author) {
                 newStory[i][2] = value;
@@ -28,7 +28,7 @@ export default function EditAuthor({author}) {
   return (
     <form className="author" onSubmit={(e) => e.preventDefault()}>
     <input onChange={(e) => setValue(e.target.value)} onKeyDown={handleKeyDown} size={value.length} value={value}/>
+    {/* I don't know how to further adjust the input size... */}
     </form>
   )
 }
-// I don't know how to further improve the input size...
