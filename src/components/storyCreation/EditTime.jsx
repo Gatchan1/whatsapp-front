@@ -4,7 +4,7 @@ import { storyCreationContext } from "../../contexts/storyCreation.context";
 
 export default function EditTime({ checkbox, time, index, setShowScrollPanel }) {
   const { story, tempStory, setStory, storyCopy } = useContext(storyCreationContext);
-  const { setDateBegin, setDateEnd, setDateCompareBegin, setDateCompareEnd } = useContext(timeScrollContext);
+  const { setDateCompareBegin, setDateCompareEnd } = useContext(timeScrollContext);
   const [showArrows, setShowArrows] = useState(false);
   const [value, setValue] = useState("Sun, March 31, 2024 at 1:57 PM");
 
@@ -37,33 +37,27 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
     const dateEndIndex = newStory.findLastIndex((message) => message[0]); //last match with checked tickbox
     //if (dateBeginIndex < 0 || dateEndIndex < 0) return; //This'd be right before unmount, when unchecking the last checkbox on place.
     if (dateBeginIndex > 0) { // that's to say dateBeginIndex != 0
-      const newDateCompareBegin = new Date(newStory[dateBeginIndex - 1][1]);
-      console.log("newDateCompareBegin", newDateCompareBegin);
-      setDateCompareBegin(newDateCompareBegin);
+      setDateCompareBegin(newStory[dateBeginIndex - 1][1]);
     } else {
       setDateCompareBegin(new Date(0));
     }
     
     if (dateEndIndex != newStory.length - 1 && !(dateEndIndex < 0)) {
-      const newDateCompareEnd = new Date(newStory[dateEndIndex + 1][1]);
-      console.log("newDateCompareEnd", newDateCompareEnd)
-      setDateCompareEnd(newDateCompareEnd); //It's important to make new Date objects here.
+      setDateCompareEnd(newStory[dateEndIndex + 1][1]);
     } else {
       setDateCompareEnd(new Date("2250-1-1"));
     }
-    //(I bet it's because I alter "story" through deep copies a lot, and there aren't Date objects in JSON)
-    //TODO: look into this, maybe I've changed things so much that---
   }
 
   const handleCheckbox = () => {
-    const newStory = JSON.parse(JSON.stringify(tempStory));
+    const newStory = storyCopy();
     newStory[index][0] = !checkbox;
     setStory(newStory);
     assignDateLimits(newStory);
   };
 
   const handleUpstream = () => {
-    const newStory = JSON.parse(JSON.stringify(tempStory));
+    const newStory = storyCopy();
     for (let i = 0; i <= index; i++) {
       newStory[i][0] = !checkbox;
     }
@@ -71,7 +65,7 @@ export default function EditTime({ checkbox, time, index, setShowScrollPanel }) 
     assignDateLimits(newStory);
   };
   const handleDownstream = () => {
-    const newStory = JSON.parse(JSON.stringify(tempStory));
+    const newStory = storyCopy();
     for (let i = index; i < story.length; i++) {
       newStory[i][0] = !checkbox;
     }
