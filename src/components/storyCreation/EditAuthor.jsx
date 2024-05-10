@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
-export default function EditAuthor({author}) {
-    const { story, setStory, storyCopy } = useContext(storyCreationContext);
+export default function EditAuthor({author, setUniqueAuthors}) {
+    const { story, setStory, tempStory, setTempStory, storyCopy } = useContext(storyCreationContext);
     const [value, setValue] = useState(author);
 
     useEffect(()=>{
         setValue(author);
-    },[story])
+    },[story, author])
 
     const updateAuthor = () => {
         const newStory = storyCopy();
@@ -17,6 +17,11 @@ export default function EditAuthor({author}) {
             }
         }
         setStory(newStory);
+        setTempStory(newStory);
+
+        if (setUniqueAuthors) {
+            setUniqueAuthors(newStory);
+        }
     }
 
     const handleKeyDown = (e) => {

@@ -10,7 +10,6 @@ export default function StoryWrite() {
 
   useEffect(() => {
     setTempStory(storyCopy());
-    //console.log("copying altstoryyy", storyCopy())
   }, [story]);
 
   useEffect(() => {

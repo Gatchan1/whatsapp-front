@@ -24,7 +24,6 @@ export default function EditTime({ checkbox, time, index }) {
   const assignDateLimits = (newStory) => {
     const dateBeginIndex = newStory.findIndex((message) => message[0]); //first match with checked tickbox
     const dateEndIndex = newStory.findLastIndex((message) => message[0]); //last match with checked tickbox
-    //if (dateBeginIndex < 0 || dateEndIndex < 0) return; //This'd be right before unmount, when unchecking the last checkbox on place.
     if (dateBeginIndex > 0) { // that's to say dateBeginIndex != 0
       setDateCompareBegin(newStory[dateBeginIndex - 1][1]);
     } else {
@@ -53,6 +52,7 @@ export default function EditTime({ checkbox, time, index }) {
     setStory(newStory);
     assignDateLimits(newStory);
   };
+  
   const handleDownstream = () => {
     const newStory = storyCopy(tempStory);
     for (let i = index; i < story.length; i++) {
