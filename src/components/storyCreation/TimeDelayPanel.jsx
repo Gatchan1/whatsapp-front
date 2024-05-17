@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { timeScrollContext } from "../../contexts/timeScroll.context";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
-import InputNum from "./InputNum";
+import InputDelay from "./InputDelay";
 import useApplyDelays from "../../hooks/useApplyDelays";
 
-export default function EditTimePanel() {
+export default function TimeDelayPanel() {
   const { story } = useContext(storyCreationContext);
 
   const {
@@ -33,33 +33,31 @@ export default function EditTimePanel() {
 
   return (
     <div id="scroll-time" className="bottom-margin">
-      <h5 className="no-margin">Apply time delay</h5>
+      <h5 className="no-margin">Apply time delay (scroll up or down!)</h5>
       <div className="row">
         <div className="column">
           <label htmlFor="hours">Hours</label>
-          <InputNum delay={hourDelay} setDelay={setHourDelay} unit="hours" />
+          <InputDelay delay={hourDelay} setDelay={setHourDelay} unit="hours" />
         </div>
         <div>:</div>
         <div className="column">
           <label htmlFor="minutes">Minutes</label>
-          <InputNum delay={minuteDelay} setDelay={setMinuteDelay} unit="minutes" />
+          <InputDelay delay={minuteDelay} setDelay={setMinuteDelay} unit="minutes" />
         </div>
         <div className="left-margin column">
           <label htmlFor="day">Day</label>
-          <InputNum delay={dayDelay} setDelay={setDayDelay} unit="date" />
+          <InputDelay delay={dayDelay} setDelay={setDayDelay} unit="date" />
         </div>
         <div>/</div>
         <div className="column">
           <label htmlFor="month">Month</label>
-          <InputNum delay={monthDelay} setDelay={setMonthDelay} unit="month" />
+          <InputDelay delay={monthDelay} setDelay={setMonthDelay} unit="month" />
         </div>
         <div>/</div>
         <div className="column">
           <label htmlFor="year">Year</label>
-          <InputNum delay={yearDelay} setDelay={setYearDelay} unit="year" />
+          <InputDelay delay={yearDelay} setDelay={setYearDelay} unit="year" />
         </div>
-        <button className="apply-btn">Apply delay</button>
-        {/* TODO: set up button logic */}
       </div>
     </div>
   );

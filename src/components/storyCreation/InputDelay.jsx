@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { timeScrollContext } from "../../contexts/timeScroll.context";
 
-export default function InputNum({ delay, setDelay, unit }) {
+export default function InputDelay({ delay, setDelay, unit }) {
   const { dateBegin, dateCompareBegin, dateEnd, dateCompareEnd } = useContext(timeScrollContext);
 
   const [isHover, setIsHover] = useState(false);
@@ -33,13 +33,12 @@ export default function InputNum({ delay, setDelay, unit }) {
   };
 
   const setBeginAndEndDelays = () => {
-  //dateBegin is the date corresponding to the first ticked box.
-  //dateEnd is the date corresponding to the last ticked box.
-  /*dateCompareBegin is the date corresponding to the date PREVIOUS to the first ticked one
+    //dateBegin is the date corresponding to the first ticked box.
+    //dateEnd is the date corresponding to the last ticked box.
+    /*dateCompareBegin is the date corresponding to the date PREVIOUS to the first ticked one
   (in case the first ticked one isn't the first date in the whole story!).*/
-  /*dateCompareEnd is the date corresponding to the date that FOLLOWS the last ticked one
+    /*dateCompareEnd is the date corresponding to the date that FOLLOWS the last ticked one
   (in case the last ticked one isn't the last date in the whole story!).*/
-    setIsHover(true);
     const index = chooseUnitIndex(unit);
 
     // Take current delay into account; we want to calculate dateBegin and dateEnd as if delay was 0.
@@ -82,19 +81,18 @@ export default function InputNum({ delay, setDelay, unit }) {
     }
   };
 
-  const handleMouseLeave = () => {
-    setIsHover(false);
-  };
-
   return (
-    <div id="inputNum" className="relative" onMouseLeave={handleMouseLeave}>
+    <div id="inputNum" className="relative" onMouseLeave={() => setIsHover(false)}>
       <input
         value={delay}
         onChange={(e) => {
           console.log(e.target.value);
           if (Number(e.target.value) <= endDelay && Number(e.target.value) >= beginDelay) setDelay(Number(e.target.value));
         }}
-        onMouseEnter={setBeginAndEndDelays}
+        onMouseEnter={() => {
+          setIsHover(true);
+          setBeginAndEndDelays();
+        }}
       />
       {isHover && (
         <div className="column absolute" id="chevrons">
@@ -105,9 +103,12 @@ export default function InputNum({ delay, setDelay, unit }) {
             }}
           />
           {/* TODO put limits.... */}
-          <button className="down" onClick={() => {
-            if (delay > beginDelay) setDelay((delay) => delay - 1)
-          }} />
+          <button
+            className="down"
+            onClick={() => {
+              if (delay > beginDelay) setDelay((delay) => delay - 1);
+            }}
+          />
         </div>
       )}
     </div>

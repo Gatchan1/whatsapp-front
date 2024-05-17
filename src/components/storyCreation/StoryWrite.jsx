@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import Message from "./Message";
 import AuthorsPanel from "./AuthorsPanel";
-import EditTimePanel from "./EditTimePanel";
+import TimeDelayPanel from "./TimeDelayPanel";
 
 export default function StoryWrite() {
   const { story, tempStory, setTempStory, storyCopy } = useContext(storyCreationContext);
@@ -28,7 +28,7 @@ export default function StoryWrite() {
   return (
     <div>
       <h3>StoryWrite</h3>
-      {showScrollPanel && <EditTimePanel />}
+      {showScrollPanel && <TimeDelayPanel />}
       {tempStory && tempStory.map((message, i) => <Message key={i} index={i} message={message} />)}
       <br />
 
