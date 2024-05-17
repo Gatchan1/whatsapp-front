@@ -101,11 +101,13 @@ export default function InputNum({ delay, setDelay, unit }) {
           <button
             className="up"
             onClick={() => {
-              setDelay(delay + 1);
+              if (delay < endDelay) setDelay((delay) => delay + 1);
             }}
           />
           {/* TODO put limits.... */}
-          <button className="down" onClick={() => setDelay(delay - 1)} />
+          <button className="down" onClick={() => {
+            if (delay > beginDelay) setDelay((delay) => delay - 1)
+          }} />
         </div>
       )}
     </div>
