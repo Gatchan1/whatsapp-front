@@ -147,3 +147,10 @@ input.date {
   top: 18px;
   left: 38px;
 }
+
+input.unset {
+  background-color: #fbfcc6;
+}
+input.set {
+  background-color: #ffffff;
+}

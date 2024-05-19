@@ -4,12 +4,14 @@ import SelectAuthors from "./SelectAuthors";
 
 export default function EditAuthorMessage({ author, index }) {
   const { story, setStory, storyCopy, retrieveUniqueAuthors } = useContext(storyCreationContext);
-  const [isHover, setIsHover] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
   const [value, setValue] = useState(author);
+  const [bgColor, setBgColor] = useState("set");
 
   useEffect(() => {
     setValue(author);
+    setBgColor("set");
   }, [story, author]);
 
   const updateAll = () => {
@@ -35,16 +37,23 @@ export default function EditAuthorMessage({ author, index }) {
     newStory[index][2] = chosenAuthor;
     setStory(newStory);
     retrieveUniqueAuthors(newStory);
+    setShowOptions(false);
     setShowSelect(false);
-  }
+  };
 
   function Options() {
     return (
       <div className="absolute row options">
-        <button className="relative option" onClick={updateAll}>🪄</button>
-        <button className="relative option" onClick={newAuthor}>➕</button>
-        <button className="relative option" onClick={() => setShowSelect(!showSelect)}>▼</button>
-        <div>{showSelect && <SelectAuthors selectOne={selectOne}/>}</div>
+        <button className="relative option" onClick={updateAll}>
+          🪄
+        </button>
+        <button className="relative option" onClick={newAuthor}>
+          ➕
+        </button>
+        <button className="relative option" onClick={() => setShowSelect(!showSelect)}>
+          ▼
+        </button>
+        <div>{showSelect && <SelectAuthors selectOne={selectOne} />}</div>
       </div>
     );
   }
@@ -53,15 +62,27 @@ export default function EditAuthorMessage({ author, index }) {
     <div>
       <div
         className="relative author"
-        onMouseEnter={() => setIsHover(true)}
+        onMouseEnter={() => setShowOptions(true)}
         onMouseLeave={() => {
-          setIsHover(false);
+          setShowOptions(false);
           setShowSelect(false);
         }}
       >
-        {isHover && <Options />}
+        {showOptions && <Options />}
         <form onSubmit={(e) => e.preventDefault()}>
-          <input onChange={(e) => setValue(e.target.value)} size={value.length} value={value} />
+          <input
+            onChange={(e) => {
+              if (e.target.value != author) {
+                setBgColor("unset");
+              } else {
+                setBgColor("set");
+              }
+              setValue(e.target.value);
+            }}
+            className={bgColor}
+            size={value.length}
+            value={value}
+          />
         </form>
       </div>
     </div>
