@@ -82,7 +82,7 @@ export default function InputDelay({ delay, setDelay, unit }) {
   };
 
   return (
-    <div id="inputNum" className="relative" onMouseLeave={() => setIsHover(false)}>
+    <div id="inputDelay" className="relative" onMouseLeave={() => setIsHover(false)}>
       <input
         value={delay}
         onChange={(e) => {
@@ -102,7 +102,6 @@ export default function InputDelay({ delay, setDelay, unit }) {
               if (delay < endDelay) setDelay((delay) => delay + 1);
             }}
           />
-          {/* TODO put limits.... */}
           <button
             className="down"
             onClick={() => {
