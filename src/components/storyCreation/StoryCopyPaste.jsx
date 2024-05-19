@@ -5,6 +5,14 @@ export default function StoryCopyPaste({ setCopyPasting }) {
   const { setStory } = useContext(storyCreationContext);
   const [storyText, setStoryText] = useState("");
   const [messages, setMessages] = useState([]);
+  
+  useEffect(() => {
+    if (messages[0]) {
+      buildStory();
+      setCopyPasting(false); // this component will cease to be shown (see CreatePage.jsx)
+    }
+  }, [messages]);
+
   const dateTime = /\[\d{1,2}:\d{2}, \d{1,2}\/\d{1,2}\/\d{4}\]/;
   // [0:01, 28/3/2024]
   const dateTimeGlobal = /\[\d{1,2}:\d{2}, \d{1,2}\/\d{1,2}\/\d{4}\]/g;
@@ -44,13 +52,6 @@ export default function StoryCopyPaste({ setCopyPasting }) {
     // console.log("storyyy", newStory);
     setStory(newStory);
   };
-
-  useEffect(() => {
-    if (messages[0]) {
-      buildStory();
-      setCopyPasting(false); // this component will cease to be shown (see CreatePage.jsx)
-    }
-  }, [messages]);
 
   const handleRestructuring = (e) => {
     e.preventDefault();
