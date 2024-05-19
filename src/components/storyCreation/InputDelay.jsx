@@ -16,6 +16,7 @@ export default function InputDelay({ delay, setDelay, unit }) {
     };
     if (isHover) {
       window.addEventListener("wheel", scrollInput, { passive: false });
+      //used DOM manipulation because react's onWheel event won't allow me to avoid the page scroll.
     }
     return () => window.removeEventListener("wheel", scrollInput);
   }, [isHover, delay, endDelay, beginDelay]);
