@@ -75,7 +75,7 @@ export default function EditTime({ checkbox, time, index }) {
         </div>
         <input className="checkbox" type="checkbox" checked={checkbox} onChange={handleCheckbox} onMouseEnter={() => setShowArrows(true)} />
       </div>
-      <input size={value.length - 3} value={value} readOnly />
+      <input className="date" size={value.length} value={value} readOnly />
     </form>
   );
 }
