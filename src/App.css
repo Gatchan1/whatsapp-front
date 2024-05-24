@@ -5,6 +5,12 @@
 body {
   margin: 0;
 }
+button:hover {
+  cursor: pointer;
+}
+button.disabled:hover {
+  cursor: default;
+}
 
 .left-margin {
   margin-left: 20px;
@@ -28,6 +34,9 @@ body {
 }
 .absolute {
   position: absolute;
+}
+.inline {
+  display: inline;
 }
 
 /* --------------------------------------- Navbar --------------------------------------- */
@@ -107,6 +116,13 @@ right: 1px;
   background-color: #ffffff;
 }
 
+.checkbox:hover {
+  cursor: pointer;
+}
+input.date {
+  cursor: default;
+}
+
 #inputDelay {
   width: fit-content;
 }
@@ -120,11 +136,13 @@ input.date {
   border-width: 1px;
 }
 
-.author .option {
+.option {
   font-size: 10px;
   padding: 0;
   height: 18px;
   width: 19px;
+  border: 1px solid black;
+  border-radius: 3px;
 }
 
 .author .options {
@@ -153,4 +171,17 @@ input.unset {
 }
 input.set {
   background-color: #ffffff;
+}
+
+button.undo {
+  background-color: rgb(250, 180, 180);
+  font-size: 16px;
+  vertical-align: middle;
+}
+button.enter {
+  background-color: rgb(182, 250, 180);
+}
+
+button.disabled {
+  background-color: rgb(221, 221, 221);
 }
