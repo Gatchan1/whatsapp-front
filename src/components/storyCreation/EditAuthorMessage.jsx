@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import SelectAuthors from "./SelectAuthors";
 
@@ -6,37 +6,33 @@ export default function EditAuthorMessage({ author, index }) {
   const { story, setStory, storyCopy, retrieveUniqueAuthors } = useContext(storyCreationContext);
   const [showOptions, setShowOptions] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
-  const [value, setValue] = useState(author);
-  const [bgColor, setBgColor] = useState("set");
+  const [authorValue, setAuthorValue] = useState(author);
+  const [isSet, setIsSet] = useState(true);
 
-  useEffect(() => {
-    setValue(author);
-    setBgColor("set");
-  }, [story, author]);
+  const update = (data) => {
+    setStory(data);
+    retrieveUniqueAuthors(data);
+    setIsSet(true);
+  }
 
   const updateAll = () => {
     const newStory = storyCopy();
     for (let i = 0; i < story.length; i++) {
       if (newStory[i][2] == author) {
-        newStory[i][2] = value;
+        newStory[i][2] = authorValue;
       }
     }
-    setStory(newStory);
-    retrieveUniqueAuthors(newStory);
+    update(newStory);
   };
-
   const newAuthor = () => {
     const newStory = storyCopy();
-    newStory[index][2] = value;
-    setStory(newStory);
-    retrieveUniqueAuthors(newStory);
+    newStory[index][2] = authorValue;
+    update(newStory);
   };
-
   const selectOne = (chosenAuthor) => {
     const newStory = storyCopy();
     newStory[index][2] = chosenAuthor;
-    setStory(newStory);
-    retrieveUniqueAuthors(newStory);
+    update(newStory);
     setShowOptions(false);
     setShowSelect(false);
   };
@@ -44,13 +40,13 @@ export default function EditAuthorMessage({ author, index }) {
   function Options() {
     return (
       <div className="absolute row options">
-        <button className="relative option" onClick={updateAll}>
+        <button type="button" className="relative option" onClick={updateAll}>
           🪄
         </button>
-        <button className="relative option" onClick={newAuthor}>
+        <button type="button" className="relative option" onClick={newAuthor}>
           ➕
         </button>
-        <button className="relative option" onClick={() => setShowSelect(!showSelect)}>
+        <button type="button" className="relative option" onClick={() => setShowSelect(!showSelect)}>
           ▼
         </button>
         <div>{showSelect && <SelectAuthors selectOne={selectOne} />}</div>
@@ -68,20 +64,21 @@ export default function EditAuthorMessage({ author, index }) {
           setShowSelect(false);
         }}
       >
+      {/* TODO: me gusta más el approach que usé para mostrar las opciones del comment!! (onFocus/onBlur), aplicarlo aquí! */}
         {showOptions && <Options />}
         <form onSubmit={(e) => e.preventDefault()}>
           <input
             onChange={(e) => {
               if (e.target.value != author) {
-                setBgColor("unset");
+                setIsSet(false);
               } else {
-                setBgColor("set");
+                setIsSet(true);
               }
-              setValue(e.target.value);
+              setAuthorValue(e.target.value);
             }}
-            className={bgColor}
-            size={value.length}
-            value={value}
+            className={isSet ? "set" : "unset"}
+            size={authorValue.length}
+            value={authorValue}
           />
         </form>
       </div>

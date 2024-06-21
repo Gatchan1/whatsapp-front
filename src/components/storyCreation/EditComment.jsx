@@ -1,17 +1,29 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
 export default function EditComment({ comment, index }) {
-  const { story, setStory, storyCopy, retrieveUniqueAuthors } = useContext(storyCreationContext);
-  const [value, setValue] = useState(comment);
+  const { setStory, storyCopy } = useContext(storyCreationContext);
+  const [commentCols, setCommentCols] = useState(20);
+  const [commentValue, setCommentValue] = useState(comment);
   const [showOptions, setShowOptions] = useState(false);
-  const [bgColor, setBgColor] = useState("set");
+  const [isSet, setIsSet] = useState(true);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (commentValue.length == 0) {
+      setCommentCols(20);
+    } else if (commentValue.length < 50) {
+      setCommentCols(commentValue.length);
+    }
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+  }, [commentValue]);
 
   const updateMessage = () => {
     const newStory = storyCopy();
-    newStory[index][3] = value;
+    newStory[index][3] = commentValue;
     setStory(newStory);
-    setBgColor("set");
+    setIsSet(true);
   };
 
   const handleEnter = (e) => {
@@ -23,19 +35,19 @@ export default function EditComment({ comment, index }) {
 
   function Options() {
     return (
-      <div className="inline">
-        <button type="button" className={"enter option " + (bgColor === "unset" ? "active" : "disabled")} disabled={bgColor === "set" ? "true" : ""} onMouseDown={updateMessage}>
+      <div>
+        <button type="button" className={"enter option " + (!isSet ? "active" : "disabled")} disabled={isSet ? "true" : ""} onMouseDown={updateMessage}>
           ✔️
         </button>
         <button
           type="button"
-          className={"undo option " + (bgColor === "unset" ? "active" : "disabled")}
-          disabled={bgColor === "set" ? "true" : ""}
+          className={"undo option " + (!isSet ? "active" : "disabled")}
+          disabled={isSet ? "true" : ""}
           //(writing "false" returns true for being a non-empty string)
           onMouseDown={() => {
             //used onMouseDown instead of onClick because it triggers before onBlur.
-            setBgColor("set");
-            setValue(comment);
+            setIsSet(true);
+            setCommentValue(comment);
             setShowOptions(false);
           }}
         >
@@ -46,26 +58,25 @@ export default function EditComment({ comment, index }) {
   }
 
   return (
-    <form onBlur={() => setShowOptions(false)}>
-      <input
-        size={value.length}
-        value={value}
+    <form className="comment row"
+    onBlur={() => setShowOptions(false)}>
+      <textarea
+        ref={textareaRef}
+        cols={commentCols}
+        value={commentValue}
         onChange={(e) => {
-          setValue(e.target.value);
+          setCommentValue(e.target.value);
           if (e.target.value != comment) {
-            setBgColor("unset");
+            setIsSet(false);
           } else {
-            setBgColor("set");
+            setIsSet(true);
           }
         }}
         onFocus={() => setShowOptions(true)}
         onKeyDown={handleEnter}
-        className={bgColor}
+        className={isSet ? "set" : "unset"}
       />
       {showOptions && <Options />}
     </form>
   );
 }
-
-//TODO: lots!! have to end up updating story!!
-//add onKeyDown!!!
