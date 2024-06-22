@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import SelectAuthors from "./SelectAuthors";
 
@@ -6,14 +6,26 @@ export default function EditAuthorMessage({ author, index }) {
   const { story, setStory, storyCopy, retrieveUniqueAuthors } = useContext(storyCreationContext);
   const [showOptions, setShowOptions] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
+  const [authorSize, setAuthorSize] = useState(6);
   const [authorValue, setAuthorValue] = useState(author);
   const [isSet, setIsSet] = useState(true);
+  const inputRef = useRef(null);
+  const ignoreBlurRef = useRef(false);
 
-  const update = (data) => {
-    setStory(data);
-    retrieveUniqueAuthors(data);
+  useEffect(() => {
+    setAuthorValue(author);
     setIsSet(true);
-  }
+  }, [author]);
+
+  useEffect(() => {
+    if (authorValue.length > 5 && authorValue.length < 30) setAuthorSize(authorValue.length);
+  }, [authorValue]);
+
+  const update = (someStory) => {
+    setStory(someStory);
+    retrieveUniqueAuthors(someStory);
+    setIsSet(true);
+  };
 
   const updateAll = () => {
     const newStory = storyCopy();
@@ -37,16 +49,28 @@ export default function EditAuthorMessage({ author, index }) {
     setShowSelect(false);
   };
 
+  const handleMouseDown = () => {
+    ignoreBlurRef.current = true;
+    setTimeout(() => {
+      ignoreBlurRef.current = false;
+    }, 10);
+    setShowSelect(!showSelect);
+  }
+ 
   function Options() {
     return (
       <div className="absolute row options">
-        <button type="button" className="relative option" onClick={updateAll}>
+        <button type="button" className="relative option" onMouseDown={updateAll}>
           🪄
         </button>
-        <button type="button" className="relative option" onClick={newAuthor}>
+        <button type="button" className="relative option" onMouseDown={newAuthor}>
           ➕
         </button>
-        <button type="button" className="relative option" onClick={() => setShowSelect(!showSelect)}>
+        <button
+          type="button"
+          className="relative option"
+          onMouseDown={handleMouseDown}
+        >
           ▼
         </button>
         <div>{showSelect && <SelectAuthors selectOne={selectOne} />}</div>
@@ -54,30 +78,37 @@ export default function EditAuthorMessage({ author, index }) {
     );
   }
 
+  const handleBlur = () => {
+    if (ignoreBlurRef.current) {
+      inputRef.current.focus();
+      ignoreBlurRef.current = false;
+    } else {
+      setShowOptions(false);
+      setShowSelect(false);
+    }
+  };
+
+  const handleOnChange = (e) => {
+    if (e.target.value != author) {
+      setIsSet(false);
+    } else {
+      setIsSet(true);
+    }
+    setAuthorValue(e.target.value);
+  }
+
   return (
     <div>
-      <div
-        className="relative author"
-        onMouseEnter={() => setShowOptions(true)}
-        onMouseLeave={() => {
-          setShowOptions(false);
-          setShowSelect(false);
-        }}
-      >
-      {/* TODO: me gusta más el approach que usé para mostrar las opciones del comment!! (onFocus/onBlur), aplicarlo aquí! */}
+      <div className="relative author">
         {showOptions && <Options />}
         <form onSubmit={(e) => e.preventDefault()}>
           <input
-            onChange={(e) => {
-              if (e.target.value != author) {
-                setIsSet(false);
-              } else {
-                setIsSet(true);
-              }
-              setAuthorValue(e.target.value);
-            }}
+            ref={inputRef}
+            onFocus={() => setShowOptions(true)}
+            onBlur={handleBlur}
+            onChange={handleOnChange}
             className={isSet ? "set" : "unset"}
-            size={authorValue.length}
+            size={authorSize}
             value={authorValue}
           />
         </form>

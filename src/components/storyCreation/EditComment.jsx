@@ -3,17 +3,19 @@ import { storyCreationContext } from "../../contexts/storyCreation.context";
 
 export default function EditComment({ comment, index }) {
   const { setStory, storyCopy } = useContext(storyCreationContext);
-  const [commentCols, setCommentCols] = useState(20);
+  const [commentCols, setCommentCols] = useState(50);
   const [commentValue, setCommentValue] = useState(comment);
   const [showOptions, setShowOptions] = useState(false);
   const [isSet, setIsSet] = useState(true);
   const textareaRef = useRef(null);
 
   useEffect(() => {
-    if (commentValue.length == 0) {
+    if (commentValue.length < 20) {
       setCommentCols(20);
-    } else if (commentValue.length < 50) {
+    } else if (commentValue.length >= 20 && commentValue.length < 50) {
       setCommentCols(commentValue.length);
+    } else if (commentValue.length > 50) {
+      setCommentCols(50);
     }
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
@@ -58,8 +60,7 @@ export default function EditComment({ comment, index }) {
   }
 
   return (
-    <form className="comment row"
-    onBlur={() => setShowOptions(false)}>
+    <form className="comment row" onBlur={() => setShowOptions(false)}>
       <textarea
         ref={textareaRef}
         cols={commentCols}
