@@ -49,7 +49,12 @@ export default function Signup({ setShowSignup }) {
   };
 
   return (
-    <div className="modal">
+    <div
+      className="modal"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setShowSignup(false);
+      }}
+    >
       <div className="modal-content">
         {loginMessage && (
           <div>
@@ -61,7 +66,7 @@ export default function Signup({ setShowSignup }) {
         </div>
         <h1>Sign up</h1>
         <form>
-        {error != "" && <Alert message={error} setError={setError} />}
+          {error != "" && <Alert message={error} setError={setError} />}
           <div>
             <label htmlFor="name">Username:</label>
             <input id="name" type="text" onChange={(e) => setName(e.target.value)} />

@@ -24,12 +24,17 @@ export default function Login({ setShowLogin }) {
         localStorage.setItem("authToken", jwt);
         authenticateUser();
       })
-      .then(()=> setShowLogin(false))
+      .then(() => setShowLogin(false))
       .catch((err) => setError("Could not finish the process, try again"));
   };
 
   return (
-    <div className="modal">
+    <div
+      className="modal"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) setShowLogin(false);
+      }}
+    >
       <div className="modal-content">
         <div className="close-button-container">
           <button onClick={() => setShowLogin(false)}>close</button>
@@ -37,7 +42,7 @@ export default function Login({ setShowLogin }) {
         <div>
           <h1>Log in</h1>
           <form>
-          {error != "" && <Alert message={error} setError={setError} />}
+            {error != "" && <Alert message={error} setError={setError} />}
             <div>
               <label htmlFor="user">Username or e-mail:</label>
               <input id="user" type="text" onChange={(e) => setUser(e.target.value)} />
