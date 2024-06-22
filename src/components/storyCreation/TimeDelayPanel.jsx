@@ -32,7 +32,7 @@ export default function TimeDelayPanel() {
   useApplyDelays();
 
   return (
-    <div id="scroll-time" className="bottom-margin">
+    <div id="scroll-time" className="fixed">
       <h5 className="no-margin">Apply time delay (scroll up or down!)</h5>
       <div className="row">
         <div className="column">

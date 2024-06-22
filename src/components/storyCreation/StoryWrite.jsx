@@ -3,6 +3,7 @@ import { storyCreationContext } from "../../contexts/storyCreation.context";
 import Message from "./Message";
 import AuthorsPanel from "./AuthorsPanel";
 import TimeDelayPanel from "./TimeDelayPanel";
+import NewMessage from "./NewMessage";
 
 export default function StoryWrite() {
   const { story, tempStory, setTempStory, storyCopy } = useContext(storyCreationContext);
@@ -31,7 +32,8 @@ export default function StoryWrite() {
       {showScrollPanel && <TimeDelayPanel />}
       {tempStory && tempStory.map((message, i) => <Message key={i} index={i} message={message} />)}
       <br />
-
+      <NewMessage />
+      <br />
       {story && <AuthorsPanel />}
     </div>
   );

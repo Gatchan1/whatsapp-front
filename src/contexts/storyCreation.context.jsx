@@ -7,7 +7,8 @@ function StoryCreationProviderWrapper({ children }) {
   const [tempStory, setTempStory] = useState(null);
   const [uniqueAuthors, setUniqueAuthors] = useState([]);
   //"story" is an array of the conversation messages.
-  // Each message in "story" is structured like this: [time checkbox (is it checked: true/false), time, author, comment]
+  // Each message in "story" is structured like this:
+  //[time checkbox (is it checked: true/false), time, author, comment]
   //tempStory exists so that we aren't constantly updating story while scrolling a time delay. Updating story affects more & different re-renderings than updating tempStory.
 
   const storyCopy = (data = story) => {

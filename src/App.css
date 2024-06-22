@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
+  overflow:visible;
 }
 button:hover {
   cursor: pointer;
@@ -14,9 +15,6 @@ button.disabled:hover {
 
 .left-margin {
   margin-left: 20px;
-}
-.bottom-margin {
-  margin-bottom: 20px;
 }
 .no-margin {
   margin: 0px;
@@ -35,8 +33,17 @@ button.disabled:hover {
 .absolute {
   position: absolute;
 }
+.fixed {
+  position: fixed;
+}
 .inline {
   display: inline;
+}
+.top {
+  top: 0;
+}
+.right {
+  right: -38px;
 }
 
 /* --------------------------------------- Navbar --------------------------------------- */
@@ -59,7 +66,7 @@ ul.navbar.subset {
 
 .modal {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   top: 0;
   width: 100%;
@@ -79,6 +86,14 @@ ul.navbar.subset {
 /* --- */
 .arrow-space {
   min-width: 70px;
+}
+
+#scroll-time {
+  background-color: rgb(255, 250, 193);
+  padding: 10px;
+  border: 1px dashed black;
+  z-index: 1;
+  right: 0;
 }
 
 #scroll-time input {
@@ -146,6 +161,7 @@ input.date {
 }
 
 .author .options {
+  overflow: visible;
   right: -50px;
   top: 3px;
 }
@@ -161,12 +177,12 @@ input.date {
 }
 
 .selectAuthors {
-  z-index: 1;
   top: 18px;
   left: 38px;
 }
 
-input.unset {
+input.unset,
+textarea.unset {
   background-color: #fbfcc6;
 }
 input.set {
@@ -184,4 +200,11 @@ button.enter {
 
 button.disabled {
   background-color: rgb(221, 221, 221);
+}
+
+.new-author {
+  height: fit-content;
+}
+.new-message {
+  height: 50px;
 }
