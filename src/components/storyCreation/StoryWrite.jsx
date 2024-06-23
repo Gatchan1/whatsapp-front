@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
-import Message from "./Message";
 import AuthorsPanel from "./AuthorsPanel";
 import TimeDelayPanel from "./TimeDelayPanel";
 import NewMessage from "./NewMessage";
+import MessageBundle from "./MessageBundle";
 
 export default function StoryWrite() {
   const { story, tempStory, setTempStory, storyCopy } = useContext(storyCreationContext);
@@ -30,8 +30,10 @@ export default function StoryWrite() {
     <div>
       <h3>StoryWrite</h3>
       {showScrollPanel && <TimeDelayPanel />}
-      {tempStory && tempStory.map((message, i) => <Message key={i} index={i} message={message} />)}
+      {tempStory && tempStory.map((message, i) => <MessageBundle key={i + message[3]} index={i} message={message} />)}
+      {/* only using i as key would give us trouble when inserting new messages */}
       <br />
+      <p>Add new message:</p>
       <NewMessage />
       <br />
       {story && <AuthorsPanel />}

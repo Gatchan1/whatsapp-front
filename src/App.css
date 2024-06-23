@@ -16,8 +16,14 @@ button.disabled:hover {
 .left-margin {
   margin-left: 20px;
 }
+.top-margin {
+  margin-top: 20px;
+}
 .no-margin {
   margin: 0px;
+}
+.vertical-padding {
+  padding: 5px 0;
 }
 
 .row {
@@ -86,6 +92,7 @@ ul.navbar.subset {
 /* --- */
 .arrow-space {
   min-width: 70px;
+  z-index: 1;
 }
 
 #scroll-time {
@@ -202,9 +209,22 @@ button.disabled {
   background-color: rgb(221, 221, 221);
 }
 
+.new-message {
+  background-color: rgb(255, 205, 255);
+  /* TODO remove!! */
+}
+
 .new-author {
   height: fit-content;
 }
-.new-message {
-  height: 50px;
+button.add-message {
+  height: 30px;
+}
+
+#plus-arrow {
+  width: 30px;
+}
+button.insert-message {
+  height: fit-content;
+  left:20px;
 }

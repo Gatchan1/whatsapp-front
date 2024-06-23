@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
-export default function NewMessage() {
+export default function NewMessage({index, setShowNewMessage}) {
   const { story, setStory, storyCopy } = useContext(storyCreationContext);
   const [authorSize, setAuthorSize] = useState(8);
   const [authorValue, setAuthorValue] = useState("");
@@ -16,7 +16,7 @@ export default function NewMessage() {
   }, [authorValue, commentValue]);
 
   useEffect(() => {
-    if (authorValue.length > 8) setAuthorSize(authorValue.length);
+    if (authorValue.length > 7 && authorValue.length < 30) setAuthorSize(authorValue.length);
   }, [authorValue]);
 
   useEffect(() => {
@@ -34,20 +34,32 @@ export default function NewMessage() {
 
   const addMessage = (e) => {
     e.preventDefault();
-    const newMessage = [false, new Date(story[story.length - 1][1]),authorValue,commentValue];
+    let insertIndex, dateIndex;
+    if(index || index === 0) {
+      // If we get an index through props, then the message will be inserted
+      // right there in the story; otherwise it'll get attached at the end.
+      insertIndex = index;
+      dateIndex = index;
+    } else {
+      insertIndex = story.length;
+      dateIndex = story.length - 1;
+    }
+    const newMessage = [false, new Date(story[dateIndex][1]),authorValue,commentValue];
     const newStory = storyCopy();
-    newStory.push(newMessage);
+    newStory.splice(insertIndex, 0, newMessage);
     setStory(newStory);
+    if (setShowNewMessage) setShowNewMessage(false);
+    setAuthorValue("");
+    setCommentValue("");
   };
 
   return (
     <div>
-      <div className="author">
-        <p>Add new message:</p>
+      <div className="new-message">
         <form className="row">
-          <input className="new-author" placeholder="somebody" size={authorSize} onChange={(e) => setAuthorValue(e.target.value)} />
-          <textarea ref={textareaRef} cols={commentCols} placeholder="bla bla bla" onChange={(e) => setCommentValue(e.target.value)} />
-          <button className={"new-message " + (canSubmit ? "enter" : "disabled")} disabled={canSubmit ? "" : "true"} onClick={addMessage}>
+          <input className="new-author" placeholder="somebody" size={authorSize} onChange={(e) => setAuthorValue(e.target.value)} value={authorValue}/>
+          <textarea ref={textareaRef} cols={commentCols} placeholder="bla bla bla" onChange={(e) => setCommentValue(e.target.value)} value={commentValue} />
+          <button className={"add-message " + (canSubmit ? "enter" : "disabled")} disabled={canSubmit ? "" : "true"} onClick={addMessage}>
             ✔️
           </button>
         </form>
