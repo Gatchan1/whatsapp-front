@@ -38,14 +38,13 @@ export default function EditComment({ comment, index }) {
   function Options() {
     return (
       <div>
-        <button type="button" className={"enter option " + (!isSet ? "active" : "disabled")} disabled={isSet ? "true" : ""} onMouseDown={updateMessage}>
+        <button type="button" className={"submit option " + (!isSet ? "active" : "disabled")} disabled={isSet} onMouseDown={updateMessage}>
           ✔️
         </button>
         <button
           type="button"
           className={"undo option " + (!isSet ? "active" : "disabled")}
-          disabled={isSet ? "true" : ""}
-          //(writing "false" returns true for being a non-empty string)
+          disabled={isSet}
           onMouseDown={() => {
             //used onMouseDown instead of onClick because it triggers before onBlur.
             setIsSet(true);
