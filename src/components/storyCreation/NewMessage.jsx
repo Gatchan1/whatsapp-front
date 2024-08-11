@@ -67,9 +67,27 @@ export default function NewMessage({ index, setShowNewMessage }) {
         <form className="row">
           <div className="relative author">
             {showSelect && <SelectAuthors selectOne={selectOne} />}
-            <input ref={inputRef} onFocus={() => setShowSelect(true)} onBlur={() => setShowSelect(false)} className="new-author" placeholder="somebody" size={authorSize} onChange={(e) => setAuthorValue(e.target.value)} value={authorValue} />
+            <input
+              ref={inputRef}
+              onClick={() => setShowSelect(true)}
+              onBlur={() => setShowSelect(false)}
+              className="new-author"
+              placeholder="somebody"
+              size={authorSize}
+              onChange={(e) => {
+                setAuthorValue(e.target.value);
+                setShowSelect(false);
+              }}
+              value={authorValue}
+            />
           </div>
-          <textarea ref={textareaRef} cols={commentCols} placeholder="bla bla bla" onChange={(e) => setCommentValue(e.target.value)} value={commentValue} />
+          <textarea
+            ref={textareaRef}
+            cols={commentCols}
+            placeholder="bla bla bla"
+            onChange={(e) => setCommentValue(e.target.value)}
+            value={commentValue}
+          />
           <button className={"add-message submit " + (canSubmit ? "active" : "disabled")} disabled={!canSubmit} onClick={addMessage}>
             ✔️
           </button>
