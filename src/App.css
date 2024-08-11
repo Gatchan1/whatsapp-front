@@ -13,6 +13,10 @@ button.disabled:hover {
   cursor: default;
 }
 
+::placeholder {
+  color: rgb(150, 150, 150);
+}
+
 .left-margin {
   margin-left: 20px;
 }
@@ -167,14 +171,14 @@ input.date {
   border-radius: 3px;
 }
 
-.author .options {
+.author-options {
   overflow: visible;
   right: -50px;
   top: 3px;
 }
 
-.author .select {
-  background-color: #ffffff;
+.select-authors button {
+  background-color: #e4efff;
   border: 1px black solid;
   max-width: 200px;
   overflow: hidden;
@@ -183,7 +187,7 @@ input.date {
   font-family: monospace;
 }
 
-.selectAuthors {
+.select-authors {
   top: 18px;
   left: 38px;
 }
@@ -201,7 +205,7 @@ button.undo {
   font-size: 16px;
   vertical-align: middle;
 }
-button.enter {
+button.submit.active {
   background-color: rgb(182, 250, 180);
 }
 
@@ -221,10 +225,19 @@ button.add-message {
   height: 30px;
 }
 
-#plus-arrow {
+#arrow {
   width: 30px;
 }
 button.insert-message {
   height: fit-content;
   left:20px;
+}
+
+.new-message .select-authors {
+  top: 2px;
+  left: 100%;
+}
+
+.author-global button.undo {
+  top: 3px;
 }
