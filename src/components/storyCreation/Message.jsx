@@ -1,4 +1,4 @@
-import EditAuthorMessage from "./EditAuthorMessage";
+import EditAuthorMessage from "./authorEditing/EditAuthorMessage";
 import EditComment from "./EditComment";
 import EditTime from "./EditTime";
 

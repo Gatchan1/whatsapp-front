@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
-import AuthorsPanel from "./AuthorsPanel";
+import AuthorsPanel from "./authorEditing/AuthorsPanel";
 import TimeDelayPanel from "./TimeDelayPanel";
 import NewMessage from "./NewMessage";
 import MessageBundle from "./MessageBundle";
