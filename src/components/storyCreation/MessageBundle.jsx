@@ -8,7 +8,7 @@ export default function MessageBundle({ index, message }) {
   return (
     <div className="row">
       <button className="insert-message" onClick={() => setShowNewMessage(!showNewMessage)}>
-        <img id="plus-arrow" src="plus-arrow.png" />
+        <img id="arrow" src={!showNewMessage ? "plus-arrow.png" : "minus-arrow.png"} />
       </button>
       <div className={"column " + (showNewMessage ? "" : "top-margin")}>
         {showNewMessage && <NewMessage index={index} setShowNewMessage={setShowNewMessage} />}
