@@ -7,6 +7,7 @@ export default function EditComment({ comment, index }) {
   const [commentValue, setCommentValue] = useState(comment);
   const [showOptions, setShowOptions] = useState(false);
   const [isSet, setIsSet] = useState(true);
+  const [isShiftPressed, setIsShiftPressed] = useState(false);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -23,22 +24,26 @@ export default function EditComment({ comment, index }) {
 
   const updateMessage = () => {
     const newStory = storyCopy();
-    newStory[index][3] = commentValue;
+    newStory[index][3] = commentValue.trim();
     setStory(newStory);
+    setCommentValue(commentValue.trim());
     setIsSet(true);
   };
 
-  const handleEnter = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      updateMessage();
-    }
+  const handlePressedKeys = (e) => {
+    if (e.key === "Shift") setIsShiftPressed(true);
+    if (e.key === "Enter" && !isShiftPressed) e.preventDefault();
+  };
+
+  const handleReleasedKeys = (e) => {
+    if (e.key === "Shift") setIsShiftPressed(false);
+    if (e.key === "Enter" && !isShiftPressed && commentValue.trim() != "") updateMessage();
   };
 
   function Options() {
     return (
       <div>
-        <button type="button" className={"submit option " + (!isSet ? "active" : "disabled")} disabled={isSet} onMouseDown={updateMessage}>
+        <button type="button" className={"submit option " + (!isSet && commentValue.trim() != "" ? "active" : "disabled")} disabled={isSet || commentValue.trim() == ""} onMouseDown={updateMessage}>
           ✔️
         </button>
         <button
@@ -49,7 +54,6 @@ export default function EditComment({ comment, index }) {
             //used onMouseDown instead of onClick because it triggers before onBlur.
             setIsSet(true);
             setCommentValue(comment);
-            setShowOptions(false);
           }}
         >
           ↶
@@ -73,7 +77,8 @@ export default function EditComment({ comment, index }) {
           }
         }}
         onFocus={() => setShowOptions(true)}
-        onKeyDown={handleEnter}
+        onKeyDown={handlePressedKeys}
+        onKeyUp={handleReleasedKeys}
         className={isSet ? "set" : "unset"}
       />
       {showOptions && <Options />}

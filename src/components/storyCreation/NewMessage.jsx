@@ -10,11 +10,12 @@ export default function NewMessage({ index, setShowNewMessage }) {
   const [commentValue, setCommentValue] = useState("");
   const [canSubmit, setCanSubmit] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
+  const [isShiftPressed, setIsShiftPressed] = useState(false);
   const textareaRef = useRef(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (authorValue == "" || commentValue == "") setCanSubmit(false);
+    if (authorValue == "" || commentValue.trim() == "") setCanSubmit(false);
     else setCanSubmit(true);
   }, [authorValue, commentValue]);
 
@@ -36,7 +37,7 @@ export default function NewMessage({ index, setShowNewMessage }) {
   }, [commentValue]);
 
   const addMessage = (e) => {
-    e.preventDefault();
+    if(e) e.preventDefault();
     let insertIndex, dateIndex;
     if (index || index === 0) {
       // If we get an index through props, then the message will be inserted
@@ -47,7 +48,7 @@ export default function NewMessage({ index, setShowNewMessage }) {
       insertIndex = story.length;
       dateIndex = story.length - 1;
     }
-    const newMessage = [false, new Date(story[dateIndex][1]), authorValue, commentValue];
+    const newMessage = [false, new Date(story[dateIndex][1]), authorValue, commentValue.trim()];
     const newStory = storyCopy();
     newStory.splice(insertIndex, 0, newMessage);
     setStory(newStory);
@@ -59,6 +60,16 @@ export default function NewMessage({ index, setShowNewMessage }) {
   const selectOne = (chosenAuthor) => {
     setAuthorValue(chosenAuthor);
     setShowSelect(false);
+  };
+
+  const handlePressedKeys = (e) => {
+    if (e.key === "Shift") setIsShiftPressed(true);
+    if (e.key === "Enter" && !isShiftPressed) e.preventDefault();
+  };
+
+  const handleReleasedKeys = (e) => {
+    if (e.key === "Shift") setIsShiftPressed(false);
+    if (e.key === "Enter" && !isShiftPressed && commentValue.trim() != "") addMessage();
   };
 
   return (
@@ -87,6 +98,8 @@ export default function NewMessage({ index, setShowNewMessage }) {
             placeholder="bla bla bla"
             onChange={(e) => setCommentValue(e.target.value)}
             value={commentValue}
+            onKeyDown={handlePressedKeys}
+            onKeyUp={handleReleasedKeys}
           />
           <button className={"add-message submit " + (canSubmit ? "active" : "disabled")} disabled={!canSubmit} onClick={addMessage}>
             ✔️
