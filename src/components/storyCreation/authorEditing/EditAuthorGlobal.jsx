@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { storyCreationContext } from "../../../contexts/storyCreation.context";
 
 export default function EditAuthorGlobal({ author }) {
@@ -6,6 +6,7 @@ export default function EditAuthorGlobal({ author }) {
   const [value, setValue] = useState(author);
   const [showOptions, setShowOptions] = useState(false);
   const [isSet, setIsSet] = useState(true);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setValue(author);
@@ -25,12 +26,15 @@ export default function EditAuthorGlobal({ author }) {
   const handleEnter = (e) => {
     if (e.key === "Enter" && value !== "") {
       updateAll();
+      setIsSet(true);
+      inputRef.current.blur();
     }
   };
 
   return (
     <form className="author-global relative" onSubmit={(e) => e.preventDefault()} onBlur={() => setShowOptions(false)}>
       <input
+        ref={inputRef}
         onChange={(e) => {
           setValue(e.target.value);
           if (e.target.value != author) {
@@ -44,6 +48,7 @@ export default function EditAuthorGlobal({ author }) {
         onKeyDown={handleEnter}
         size={value.length}
         value={value}
+        className={isSet ? "set" : "unset"}
       />
       {showOptions && (
         <button

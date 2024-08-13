@@ -45,6 +45,7 @@ export default function EditAuthorMessage({ author, index }) {
     const newStory = storyCopy();
     newStory[index][2] = chosenAuthor;
     update(newStory);
+    setAuthorValue(chosenAuthor);
     setShowOptions(false);
     setShowSelect(false);
   };
