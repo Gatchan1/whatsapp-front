@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import CreatePage from "./pages/CreatePage";
+import StoryPage from "./pages/StoryPage.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/create" element={<CreatePage />} />
+            <Route path="/story/:storyId" element={<StoryPage />} />
             <Route path="/:username" element={<ProfilePage />} />
             {/* TODO: protect profilepage route. */}
           </Routes>
