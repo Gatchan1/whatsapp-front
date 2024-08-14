@@ -2,13 +2,19 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 
 export default function EditComment({ comment, index }) {
-  const { setStory, storyCopy } = useContext(storyCreationContext);
+  const { setStory, storyCopy, submitEditingFields, setCollectedMidEditComments } = useContext(storyCreationContext);
   const [commentCols, setCommentCols] = useState(50);
   const [commentValue, setCommentValue] = useState(comment);
   const [showOptions, setShowOptions] = useState(false);
   const [isSet, setIsSet] = useState(true);
   const [isShiftPressed, setIsShiftPressed] = useState(false);
   const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (submitEditingFields) {
+      isSet ? setCollectedMidEditComments((prevData) => ({ ...prevData, isSet: true })) : setCollectedMidEditComments((prevData) => ({ ...prevData, [index]: commentValue, isSet: true }));
+    }
+  }, [submitEditingFields]);
 
   useEffect(() => {
     if (commentValue.length < 20) {

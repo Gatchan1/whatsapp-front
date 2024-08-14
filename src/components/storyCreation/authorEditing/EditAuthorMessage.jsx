@@ -3,7 +3,7 @@ import { storyCreationContext } from "../../../contexts/storyCreation.context";
 import SelectAuthors from "./SelectAuthors";
 
 export default function EditAuthorMessage({ author, index }) {
-  const { story, setStory, storyCopy, retrieveUniqueAuthors } = useContext(storyCreationContext);
+  const { story, setStory, storyCopy, retrieveUniqueAuthors, submitEditingFields, setCollectedMidEditAuthors } = useContext(storyCreationContext);
   const [showOptions, setShowOptions] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
   const [authorSize, setAuthorSize] = useState(6);
@@ -13,6 +13,11 @@ export default function EditAuthorMessage({ author, index }) {
   const [ignoreBlur, setIgnoreBlur] = useState(false);
 
   useEffect(() => {
+    isSet ? setCollectedMidEditAuthors((prevData) => ({ ...prevData, isSet: true })) : setCollectedMidEditAuthors((prevData) => ({ ...prevData, [index]: authorValue, isSet: true }));
+  }, [submitEditingFields]);
+
+  useEffect(() => {
+    // This useEffect is for author updating through the AuthorsPanel.
     setAuthorValue(author);
     setIsSet(true);
   }, [author]);
@@ -56,22 +61,18 @@ export default function EditAuthorMessage({ author, index }) {
       setIgnoreBlur(false);
     }, 10);
     setShowSelect(!showSelect);
-  }
- 
+  };
+
   function Options() {
     return (
       <div className="absolute row author-options">
-        <button type="button" className="option" onMouseDown={updateAll}>
+        <button type="button" className={"option " + (isSet ? "disabled" : "")} disabled={isSet} onMouseDown={updateAll}>
           🪄
         </button>
-        <button type="button" className="option" onMouseDown={newAuthor}>
+        <button type="button" className={"option " + (isSet ? "disabled" : "")} disabled={isSet} onMouseDown={newAuthor}>
           ➕
         </button>
-        <button
-          type="button"
-          className="option"
-          onMouseDown={handleSelectAuthorsMouseDown}
-        >
+        <button type="button" className="option" onMouseDown={handleSelectAuthorsMouseDown}>
           ▼
         </button>
         <div>{showSelect && <SelectAuthors selectOne={selectOne} />}</div>
@@ -96,22 +97,14 @@ export default function EditAuthorMessage({ author, index }) {
       setIsSet(true);
     }
     setAuthorValue(e.target.value);
-  }
+  };
 
   return (
     <div>
       <div className="relative author">
         {showOptions && <Options />}
         <form onSubmit={(e) => e.preventDefault()}>
-          <input
-            ref={inputRef}
-            onFocus={() => setShowOptions(true)}
-            onBlur={handleBlur}
-            onChange={handleOnChange}
-            className={isSet ? "set" : "unset"}
-            size={authorSize}
-            value={authorValue}
-          />
+          <input ref={inputRef} onFocus={() => setShowOptions(true)} onBlur={handleBlur} onChange={handleOnChange} className={isSet ? "set" : "unset"} size={authorSize} value={authorValue} />
         </form>
       </div>
     </div>
