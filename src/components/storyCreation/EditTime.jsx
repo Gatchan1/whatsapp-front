@@ -25,13 +25,13 @@ export default function EditTime({ checkbox, time, index }) {
     const dateBeginIndex = newStory.findIndex((message) => message[0]); //first match with checked tickbox
     const dateEndIndex = newStory.findLastIndex((message) => message[0]); //last match with checked tickbox
     if (dateBeginIndex > 0) { // that's to say dateBeginIndex != 0
-      setDateCompareBegin(newStory[dateBeginIndex - 1][1]);
+      setDateCompareBegin(newStory[dateBeginIndex - 1][2]);
     } else {
       setDateCompareBegin(new Date(0));
     }
     
     if (dateEndIndex != newStory.length - 1 && !(dateEndIndex < 0)) {
-      setDateCompareEnd(newStory[dateEndIndex + 1][1]);
+      setDateCompareEnd(newStory[dateEndIndex + 1][2]);
     } else {
       setDateCompareEnd(new Date("2250-1-1"));
     }
