@@ -30,20 +30,20 @@ export default function EditAuthorMessage({ author, index }) {
   const updateAll = () => {
     const newStory = storyCopy();
     for (let i = 0; i < story.length; i++) {
-      if (newStory[i][2] == author) {
-        newStory[i][2] = authorValue;
+      if (newStory[i][3] == author) {
+        newStory[i][3] = authorValue;
       }
     }
     update(newStory);
   };
   const newAuthor = () => {
     const newStory = storyCopy();
-    newStory[index][2] = authorValue;
+    newStory[index][3] = authorValue;
     update(newStory);
   };
   const selectOne = (chosenAuthor) => {
     const newStory = storyCopy();
-    newStory[index][2] = chosenAuthor;
+    newStory[index][3] = chosenAuthor;
     update(newStory);
     setAuthorValue(chosenAuthor);
     setShowOptions(false);

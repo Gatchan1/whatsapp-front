@@ -24,7 +24,7 @@ export default function EditComment({ comment, index }) {
 
   const updateMessage = () => {
     const newStory = storyCopy();
-    newStory[index][3] = commentValue.trim();
+    newStory[index][4] = commentValue.trim();
     setStory(newStory);
     setCommentValue(commentValue.trim());
     setIsSet(true);

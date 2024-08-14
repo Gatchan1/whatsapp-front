@@ -6,21 +6,30 @@ function StoryCreationProviderWrapper({ children }) {
   const [story, setStory] = useState(null);
   const [tempStory, setTempStory] = useState(null);
   const [uniqueAuthors, setUniqueAuthors] = useState([]);
-  //"story" is an array of the conversation messages.
-  // Each message in "story" is structured like this:
-  //[time checkbox (is it checked: true/false), time, author, comment]
-  //tempStory exists so that we aren't constantly updating story while scrolling a time delay. Updating story affects more & different re-renderings than updating tempStory.
+  /*
+  "story" is an array of the conversation messages.
+  Each message in "story" is structured like this:
+  [time checkbox (is it checked: true/false),
+    id (meant to be used as key when rendering a list),
+    time,
+    author,
+    comment]
+  */
+  /*
+  tempStory exists so that we aren't constantly updating story while scrolling a time delay.
+  Updating story affects more & different re-renderings than updating tempStory.
+  */
 
   const storyCopy = (data = story) => {
     const newStory = JSON.parse(JSON.stringify(data));
     newStory.forEach(element => {
-      element[1] = new Date(element[1]);
+      element[2] = new Date(element[2]);
     });
     return newStory;
   }
 
   const retrieveUniqueAuthors = (newStory) => {
-    const currentAuthors = newStory.map((message) => message[2]);
+    const currentAuthors = newStory.map((message) => message[3]);
     setUniqueAuthors([...new Set(currentAuthors)]);
   };
 

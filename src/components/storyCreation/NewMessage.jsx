@@ -11,8 +11,17 @@ export default function NewMessage({ index, setShowNewMessage }) {
   const [canSubmit, setCanSubmit] = useState(false);
   const [showSelect, setShowSelect] = useState(false);
   const [isShiftPressed, setIsShiftPressed] = useState(false);
+  const [nextId, setNextId] = useState(0);
   const textareaRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    let id = story[0][1];
+    story.forEach(message => {
+      if (message[1] > id) id = message[1];
+    });
+    setNextId(id + 1);
+  }, [story.length])
 
   useEffect(() => {
     if (authorValue == "" || commentValue.trim() == "") setCanSubmit(false);
@@ -48,7 +57,7 @@ export default function NewMessage({ index, setShowNewMessage }) {
       insertIndex = story.length;
       dateIndex = story.length - 1;
     }
-    const newMessage = [false, new Date(story[dateIndex][1]), authorValue, commentValue.trim()];
+    const newMessage = [false, nextId, new Date(story[dateIndex][2]), authorValue, commentValue.trim()];
     const newStory = storyCopy();
     newStory.splice(insertIndex, 0, newMessage);
     setStory(newStory);

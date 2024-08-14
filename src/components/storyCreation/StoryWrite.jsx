@@ -33,10 +33,10 @@ export default function StoryWrite() {
 
   const handlePublishStory = () => {
     // TODO: creo que lo adecuado es publicar tempStory en lugar de story, pero quizás me equivoque. Estar al loro!
-    const noCheckboxesStory = tempStory.map(message => message.slice(1));
-    // We save a little bit of space in the DB if we don't store checkboxes.
+    const cleanStory = tempStory.map(message => message.slice(2));
+    // We don't need to store ids nor checkboxes in DB. This way we save space.
     const data = {
-      body: JSON.stringify(noCheckboxesStory),
+      body: JSON.stringify(cleanStory),
       private: false,
       signed: false,
       tags: []
@@ -56,8 +56,7 @@ export default function StoryWrite() {
     <div>
       <h3>StoryWrite</h3>
       {showScrollPanel && <TimeDelayPanel />}
-      {tempStory && tempStory.map((message, i) => <MessageBundle key={i + message[3]} index={i} message={message} />)}
-      {/* only using i as key would give us trouble when inserting new messages */}
+      {tempStory && tempStory.map((message, i) => <MessageBundle key={message[1]} index={i} message={message} />)}
       <br />
       <p>Add new message:</p>
       <NewMessage />

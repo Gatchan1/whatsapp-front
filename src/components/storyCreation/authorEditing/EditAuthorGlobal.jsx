@@ -15,8 +15,8 @@ export default function EditAuthorGlobal({ author }) {
   const updateAll = () => {
     const newStory = storyCopy();
     for (let i = 0; i < story.length; i++) {
-      if (newStory[i][2] == author) {
-        newStory[i][2] = value;
+      if (newStory[i][3] == author) {
+        newStory[i][3] = value;
       }
     }
     setStory(newStory);

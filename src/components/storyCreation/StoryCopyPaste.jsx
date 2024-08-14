@@ -45,9 +45,10 @@ export default function StoryCopyPaste({ setCopyPasting }) {
     for (let i = 0; i < messages.length; i++) {
       newStory[i] = [];
       newStory[i][0] = false; //checkbox for date modification
-      newStory[i][1] = dates[i];
-      newStory[i][2] = authors[i];
-      newStory[i][3] = comments[i];
+      newStory[i][1] = i + 1;
+      newStory[i][2] = dates[i];
+      newStory[i][3] = authors[i];
+      newStory[i][4] = comments[i];
     }
     // console.log("storyyy", newStory);
     setStory(newStory);
