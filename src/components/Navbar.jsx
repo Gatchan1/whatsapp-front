@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
-import Signup from "./Signup";
-import Login from "./Login";
+import SignupModal from "./SignupModal";
+import LoginModal from "./LoginModal";
 import { authContext } from "../contexts/auth.context";
 
 export default function Navbar() {
@@ -27,8 +27,8 @@ export default function Navbar() {
           <button onClick={() => setShowLogin(true)} className="login left-margin">
             Log in
           </button>
-          {showSignup && <Signup setShowSignup={setShowSignup} />}
-          {showLogin && <Login setShowLogin={setShowLogin} />}
+          {showSignup && <SignupModal setShowSignup={setShowSignup} />}
+          {showLogin && <LoginModal setShowLogin={setShowLogin} />}
         </div>
       )}
       {isLoggedIn && (
