@@ -12,7 +12,7 @@ export default function EditComment({ comment, index }) {
 
   useEffect(() => {
     if (submitEditingFields) {
-      isSet ? setCollectedMidEditComments((prevData) => ({ ...prevData, isSet: true })) : setCollectedMidEditComments((prevData) => ({ ...prevData, [index]: commentValue, isSet: true }));
+      isSet ? setCollectedMidEditComments((prevData) => ({ ...prevData, "isSet": true })) : setCollectedMidEditComments((prevData) => ({ ...prevData, [index]: commentValue, "isSet": true }));
     }
   }, [submitEditingFields]);
 

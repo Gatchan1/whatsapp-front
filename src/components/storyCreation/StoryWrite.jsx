@@ -7,16 +7,14 @@ import AuthorsPanel from "./authorEditing/AuthorsPanel";
 import TimeDelayPanel from "./TimeDelayPanel";
 import NewMessage from "./NewMessage";
 import MessageBundle from "./MessageBundle";
+import PublishDespiteEditsModal from "./PublishDespiteEditsModal";
 
 export default function StoryWrite() {
   const { story, setStory, tempStory, setTempStory, storyCopy, submitEditingFields, setSubmitEditingFields, collectedMidEditAuthors, collectedMidEditComments } = useContext(storyCreationContext);
   const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const [showScrollPanel, setShowScrollPanel] = useState(false);
+  const [showPublishDespiteEditsModal, setShowPublishDespiteEditsModal] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    
-  }, []);
 
   useEffect(() => {
     setTempStory(storyCopy());
@@ -26,7 +24,11 @@ export default function StoryWrite() {
   useEffect(() => {
     // Check if the author and comment values that were mid edit have been processed, prior to publishing.
     if (collectedMidEditAuthors.isSet && collectedMidEditComments.isSet) {
-      publishStory();
+      if (Object.keys(collectedMidEditAuthors).length > 1 || Object.keys(collectedMidEditComments).length > 1) {
+        setShowPublishDespiteEditsModal(true);
+      } else {
+        publishStory();
+      }
     }
   }, [collectedMidEditAuthors, collectedMidEditComments]);
 
@@ -43,7 +45,6 @@ export default function StoryWrite() {
     else setShowScrollPanel(false);
   };
 
-  //crear una función que actualice story a partir de collectedMidEditAuthors! y meterla en ese useEffect.
   const getEditsSubmittedStory = () => {
     // "index" refers to the position this type of data occupies in a message array.
     const newStory = storyCopy(tempStory); // this way we don't lose a possible time edit.
@@ -89,14 +90,8 @@ export default function StoryWrite() {
       <p>Add new message:</p>
       <NewMessage />
       <br />
-      {/* <button
-        onClick={() => {
-          setSubmitEditingFields(true);
-        }}
-      >
-        submit stuff
-      </button> */}
       <button onClick={() => setSubmitEditingFields(true)}>Publish Story</button>
+      {showPublishDespiteEditsModal && <PublishDespiteEditsModal setShowPublishDespiteEditsModal={setShowPublishDespiteEditsModal} publishStory={publishStory} />}
       {story && <AuthorsPanel />}
     </div>
   );

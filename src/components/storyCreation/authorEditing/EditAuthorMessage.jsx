@@ -13,7 +13,9 @@ export default function EditAuthorMessage({ author, index }) {
   const [ignoreBlur, setIgnoreBlur] = useState(false);
 
   useEffect(() => {
-    isSet ? setCollectedMidEditAuthors((prevData) => ({ ...prevData, isSet: true })) : setCollectedMidEditAuthors((prevData) => ({ ...prevData, [index]: authorValue, isSet: true }));
+    if (submitEditingFields) {
+      isSet ? setCollectedMidEditAuthors((prevData) => ({ ...prevData, "isSet": true })) : setCollectedMidEditAuthors((prevData) => ({ ...prevData, [index]: authorValue, "isSet": true }));
+    }
   }, [submitEditingFields]);
 
   useEffect(() => {
