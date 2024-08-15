@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { authContext } from "../contexts/auth.context";
 import Alert from "./Alert";
 
-export default function Signup({ setShowSignup }) {
+export default function SignupModal({ setShowSignup }) {
   const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

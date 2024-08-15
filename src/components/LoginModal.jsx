@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { authContext } from "../contexts/auth.context";
 import Alert from "./Alert";
 
-export default function Login({ setShowLogin }) {
+export default function LoginModal({ setShowLogin }) {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
