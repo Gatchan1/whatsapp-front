@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  overflow:visible;
+  overflow: visible;
 }
 button:hover {
   cursor: pointer;
@@ -120,8 +120,8 @@ div.alert {
 }
 
 #chevrons {
-top: 3px;
-right: 1px;
+  top: 3px;
+  right: 1px;
 }
 #chevrons button.up {
   background-image: url("chevron-up.png");
@@ -239,7 +239,7 @@ button.add-message {
 }
 button.insert-message {
   height: fit-content;
-  left:20px;
+  left: 20px;
 }
 
 .new-message .select-authors {
@@ -249,4 +249,27 @@ button.insert-message {
 
 .author-global button.undo {
   top: 3px;
+}
+
+h4.participants {
+  text-align: end;
+  padding-right: 6px;
+}
+h4.pov {
+  padding-left: 6px;
+}
+.participant {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding-right: 4px;
+}
+.participants,
+.participant {
+  box-sizing: border-box;
+  width: 300px;
+}
+
+.message.pov {
+  background-color: rgb(182, 250, 180);
 }

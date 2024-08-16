@@ -7,13 +7,13 @@ import AuthorsPanel from "./authorEditing/AuthorsPanel";
 import TimeDelayPanel from "./TimeDelayPanel";
 import NewMessage from "./NewMessage";
 import MessageBundle from "./MessageBundle";
-import PublishDespiteEditsModal from "./PublishDespiteEditsModal";
+import ConfirmPublishModal from "./ConfirmPublishModal";
 
 export default function StoryWrite() {
-  const { story, setStory, tempStory, setTempStory, storyCopy, submitEditingFields, setSubmitEditingFields, collectedMidEditAuthors, collectedMidEditComments } = useContext(storyCreationContext);
+  const { story, setStory, tempStory, setTempStory, storyCopy, chosenPov, setSubmitEditingFields, collectedMidEditAuthors, collectedMidEditComments } = useContext(storyCreationContext);
   const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const [showScrollPanel, setShowScrollPanel] = useState(false);
-  const [showPublishDespiteEditsModal, setShowPublishDespiteEditsModal] = useState(false);
+  const [showConfirmPublishModal, setShowConfirmPublishModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function StoryWrite() {
     // Check if the author and comment values that were mid edit have been processed, prior to publishing.
     if (collectedMidEditAuthors.isSet && collectedMidEditComments.isSet) {
       if (Object.keys(collectedMidEditAuthors).length > 1 || Object.keys(collectedMidEditComments).length > 1) {
-        setShowPublishDespiteEditsModal(true);
+        setShowConfirmPublishModal(true);
       } else {
         publishStory();
       }
@@ -70,6 +70,7 @@ export default function StoryWrite() {
     // We don't need to store ids nor checkboxes in DB. This way we save space.
     const data = {
       body: JSON.stringify(cleanStory),
+      pov: chosenPov,
       private: false,
       signed: false,
       tags: [],
@@ -77,7 +78,7 @@ export default function StoryWrite() {
     axios
       .post(`${baseUrl}/story/`, data)
       .then(({ data }) => {
-        //console.log("story created", data);
+        console.log("story created", data, "\n and pov is ", chosenPov);
         navigate("/story/" + data._id);
       })
       .catch((err) => {
@@ -93,10 +94,11 @@ export default function StoryWrite() {
       <br />
       <p>Add new message:</p>
       <NewMessage />
+      {story && <AuthorsPanel />}
       <br />
       <button onClick={() => setSubmitEditingFields(true)}>Publish Story</button>
-      {showPublishDespiteEditsModal && <PublishDespiteEditsModal setShowPublishDespiteEditsModal={setShowPublishDespiteEditsModal} publishStory={publishStory} />}
-      {story && <AuthorsPanel />}
+      {showConfirmPublishModal && <ConfirmPublishModal setShowConfirmPublishModal={setShowConfirmPublishModal} publishStory={publishStory} />}
+      <hr />
     </div>
   );
 }

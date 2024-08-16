@@ -15,12 +15,14 @@ function StoryCreationProviderWrapper({ children }) {
   /* "tempStory" exists so that we aren't constantly updating story while scrolling a time delay.
   Updating story affects more & different re-renderings than updating tempStory.*/
   const [uniqueAuthors, setUniqueAuthors] = useState([]);
+  const [chosenPov, setChosenPov] = useState(null);
   const [submitEditingFields, setSubmitEditingFields] = useState(false);
   /* "submitEditingFields"' purpose is to trigger the submitting of any author or comment
   that were mid editing, right before publishing a story. */
   const [collectedMidEditAuthors, setCollectedMidEditAuthors] = useState({});
   const [collectedMidEditComments, setCollectedMidEditComments] = useState({});
 
+  
   const storyCopy = (data = story) => {
     const newStory = JSON.parse(JSON.stringify(data));
     newStory.forEach((element) => {
@@ -34,7 +36,25 @@ function StoryCreationProviderWrapper({ children }) {
     setUniqueAuthors([...new Set(currentAuthors)]);
   };
 
-  const exposedValues = { story, setStory, tempStory, setTempStory, storyCopy, uniqueAuthors, retrieveUniqueAuthors, submitEditingFields, setSubmitEditingFields, collectedMidEditAuthors, setCollectedMidEditAuthors, collectedMidEditComments, setCollectedMidEditComments };
+  const exposedValues = {
+    story,
+    setStory,
+    tempStory,
+    setTempStory,
+    storyCopy,
+
+    uniqueAuthors,
+    retrieveUniqueAuthors,
+    chosenPov,
+    setChosenPov,
+
+    submitEditingFields,
+    setSubmitEditingFields,
+    collectedMidEditAuthors,
+    setCollectedMidEditAuthors,
+    collectedMidEditComments,
+    setCollectedMidEditComments,
+  };
   return <storyCreationContext.Provider value={exposedValues}>{children}</storyCreationContext.Provider>;
 }
 

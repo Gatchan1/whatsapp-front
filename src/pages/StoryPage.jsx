@@ -7,6 +7,7 @@ export default function StoryPage() {
   const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const { storyId } = useParams();
   const [story, setStory] = useState(null);
+  const [povAuthor, setPovAuthor] = useState("");
 
   const parseStory = (json) => {
     const parsedStory = JSON.parse(json);
@@ -29,6 +30,7 @@ export default function StoryPage() {
       .then(({ data }) => {
         console.log(data);
         setStory(parseStory(data.body));
+        setPovAuthor(data.pov);
       })
       .catch((err) => {
         console.log(err);
@@ -41,7 +43,7 @@ export default function StoryPage() {
       {story &&
         story.map((message, i) => {
           return (
-            <div key={i}>
+            <div key={i} className={"message " + (message[1] == povAuthor ? "pov" : "")}>
               <p>{message[0]}</p>
               <p>{message[1]}</p>
               <p>{message[2]}</p>
