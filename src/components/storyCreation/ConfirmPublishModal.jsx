@@ -1,14 +1,14 @@
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import { useContext } from "react";
 
-export default function PublishDespiteEditsModal({setShowPublishDespiteEditsModal, publishStory}) {
+export default function ConfirmPublishModal({setShowConfirmPublishModal, publishStory}) {
     const { setCollectedMidEditAuthors, setCollectedMidEditComments, setSubmitEditingFields } = useContext(storyCreationContext);
 
     const handleRejectPublish = () => {
         setCollectedMidEditAuthors({isSet: false});
         setCollectedMidEditComments({isSet: false});
         setSubmitEditingFields(false);
-        setShowPublishDespiteEditsModal(false);
+        setShowConfirmPublishModal(false);
     }
 
   return (
