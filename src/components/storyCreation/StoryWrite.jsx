@@ -13,6 +13,7 @@ export default function StoryWrite() {
   const { story, setStory, tempStory, setTempStory, storyCopy, chosenPov, setSubmitEditingFields, collectedMidEditAuthors, collectedMidEditComments } = useContext(storyCreationContext);
   const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const [showScrollPanel, setShowScrollPanel] = useState(false);
+  const [canPublish, setCanPublish] = useState(false);
   const [showConfirmPublishModal, setShowConfirmPublishModal] = useState(false);
   const navigate = useNavigate();
 
@@ -20,8 +21,10 @@ export default function StoryWrite() {
     if (story && story[0]) {
       setTempStory(storyCopy());
       checkShowScrollPanel();
+      setCanPublish(true);
     } else {
       setTempStory([]);
+      setCanPublish(false);
     }
   }, [story]);
 
@@ -96,7 +99,7 @@ export default function StoryWrite() {
       <NewMessage />
       {story && <AuthorsPanel />}
       <br />
-      <button onClick={() => setSubmitEditingFields(true)}>Publish Story</button>
+      <button onClick={() => setSubmitEditingFields(true)} disabled={!canPublish} >Publish Story</button>
       {showConfirmPublishModal && <ConfirmPublishModal setShowConfirmPublishModal={setShowConfirmPublishModal} publishStory={publishStory} />}
       <hr />
     </div>
