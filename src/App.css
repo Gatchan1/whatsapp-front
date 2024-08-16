@@ -1,5 +1,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --red: rgb(250, 180, 180);
 }
 
 body {
@@ -91,6 +92,10 @@ ul.navbar.subset {
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+}
+
+div.alert {
+  background-color: var(--red);
 }
 
 /* --- */
@@ -201,7 +206,7 @@ input.set {
 }
 
 button.undo {
-  background-color: rgb(250, 180, 180);
+  background-color: var(--red);
   font-size: 16px;
   vertical-align: middle;
 }
@@ -211,6 +216,10 @@ button.submit.active {
 
 button.disabled {
   background-color: rgb(221, 221, 221);
+}
+
+button.delete {
+  background-color: var(--red);
 }
 
 .new-message {
