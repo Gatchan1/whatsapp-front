@@ -6,11 +6,13 @@ export default function SelectAuthors({selectOne}) {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    let newWidth = uniqueAuthors[0].length;
-    for (let i = 1; i < uniqueAuthors.length; i++) {
-      if (uniqueAuthors[i].length > newWidth) newWidth = uniqueAuthors[i].length;
+    if (uniqueAuthors && uniqueAuthors[0]) {
+      let newWidth = uniqueAuthors[0].length;
+      for (let i = 1; i < uniqueAuthors.length; i++) {
+        if (uniqueAuthors[i].length > newWidth) newWidth = uniqueAuthors[i].length;
+      }
+      setWidth(newWidth);
     }
-    setWidth(newWidth);
   }, []);
 
   return (

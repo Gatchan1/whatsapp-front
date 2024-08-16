@@ -16,12 +16,15 @@ export default function NewMessage({ index, setShowNewMessage }) {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    let id = story[0][1];
-    story.forEach(message => {
-      if (message[1] > id) id = message[1];
-    });
-    setNextId(id + 1);
-  }, [story.length])
+    if (story && story[0]) {
+      let id = story[0][1];
+      story.forEach((message) => {
+        if (message[1] > id) id = message[1];
+      });
+      setNextId(id + 1);
+    }
+    console.log("storyyy", story)
+  }, [story]);
 
   useEffect(() => {
     if (authorValue == "" || commentValue.trim() == "") setCanSubmit(false);
@@ -46,20 +49,30 @@ export default function NewMessage({ index, setShowNewMessage }) {
   }, [commentValue]);
 
   const addMessage = (e) => {
-    if(e) e.preventDefault();
-    let insertIndex, dateIndex;
+    if (e) e.preventDefault();
+    let insertIndex, dateIndex, newMessage, newStory;
+    // dateIndex indicates what message will we copy the date from (if any).
     if (index || index === 0) {
       // If we get an index through props, then the message will be inserted
       // right there in the story; otherwise it'll get attached at the end.
       insertIndex = index;
       dateIndex = index;
-    } else {
+    } else if (story && story.length) {
       insertIndex = story.length;
       dateIndex = story.length - 1;
+    } else { //empty story
+      insertIndex = 0;
+      dateIndex = null;
     }
-    const newMessage = [false, nextId, new Date(story[dateIndex][2]), authorValue, commentValue.trim()];
-    const newStory = storyCopy();
-    newStory.splice(insertIndex, 0, newMessage);
+
+    if (dateIndex != null) {
+      newMessage = [false, nextId, new Date(story[dateIndex][2]), authorValue, commentValue.trim()];
+      newStory = storyCopy();
+      newStory.splice(insertIndex, 0, newMessage);
+    } else { //empty story
+      newMessage = [false, nextId, new Date(), authorValue, commentValue.trim()];
+      newStory = [newMessage];
+    }
     setStory(newStory);
     if (setShowNewMessage) setShowNewMessage(false);
     setAuthorValue("");
@@ -101,15 +114,7 @@ export default function NewMessage({ index, setShowNewMessage }) {
               value={authorValue}
             />
           </div>
-          <textarea
-            ref={textareaRef}
-            cols={commentCols}
-            placeholder="bla bla bla"
-            onChange={(e) => setCommentValue(e.target.value)}
-            value={commentValue}
-            onKeyDown={handlePressedKeys}
-            onKeyUp={handleReleasedKeys}
-          />
+          <textarea ref={textareaRef} cols={commentCols} placeholder="bla bla bla" onChange={(e) => setCommentValue(e.target.value)} value={commentValue} onKeyDown={handlePressedKeys} onKeyUp={handleReleasedKeys} />
           <button className={"add-message submit " + (canSubmit ? "active" : "disabled")} disabled={!canSubmit} onClick={addMessage}>
             ✔️
           </button>

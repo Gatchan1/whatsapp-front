@@ -17,8 +17,12 @@ export default function StoryWrite() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTempStory(storyCopy());
-    checkShowScrollPanel();
+    if (story && story[0]) {
+      setTempStory(storyCopy());
+      checkShowScrollPanel();
+    } else {
+      setTempStory([]);
+    }
   }, [story]);
 
   useEffect(() => {
