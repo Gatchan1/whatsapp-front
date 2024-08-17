@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { timeScrollContext } from "../../contexts/timeScroll.context";
-import { storyCreationContext } from "../../contexts/storyCreation.context";
+import { timeScrollContext } from "../../../contexts/timeScroll.context";
+import { storyCreationContext } from "../../../contexts/storyCreation.context";
 
 export default function EditTime({ checkbox, time, index }) {
   const { story, tempStory, setStory, storyCopy } = useContext(storyCreationContext);

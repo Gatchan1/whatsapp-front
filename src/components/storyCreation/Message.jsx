@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import EditAuthorMessage from "./authorEditing/EditAuthorMessage";
 import EditComment from "./EditComment";
-import EditTime from "./EditTime";
+import EditTime from "./timeEditing/EditTime";
 import AlertDeleteMessage from "./AlertDeleteMessage";
 
 export default function Message({ message, index }) {

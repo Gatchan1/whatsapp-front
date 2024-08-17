@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
-import { timeScrollContext } from "../../contexts/timeScroll.context";
-import { storyCreationContext } from "../../contexts/storyCreation.context";
+import { timeScrollContext } from "../../../contexts/timeScroll.context";
+import { storyCreationContext } from "../../../contexts/storyCreation.context";
 import InputDelay from "./InputDelay";
-import useApplyDelays from "../../hooks/useApplyDelays";
+import useApplyDelays from "../../../hooks/useApplyDelays";
 
 export default function TimeDelayPanel() {
   const { story } = useContext(storyCreationContext);

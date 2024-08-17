@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { timeScrollContext } from "../../contexts/timeScroll.context";
+import { timeScrollContext } from "../../../contexts/timeScroll.context";
 
 export default function InputDelay({ delay, setDelay, unit }) {
   const { dateBegin, dateCompareBegin, dateEnd, dateCompareEnd } = useContext(timeScrollContext);
