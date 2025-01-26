@@ -68,10 +68,10 @@ export default function EditAuthorMessage({ author, index }) {
   function Options() {
     return (
       <div className="absolute row author-options">
-        <button type="button" className={"option " + (isSet ? "disabled" : "")} disabled={isSet} onMouseDown={updateAll}>
+        <button type="button" className={"option tooltip " + (isSet ? "disabled" : "active")} disabled={isSet} onMouseDown={updateAll} data-tooltip={"Change all \"" + author + "\" instances"}>
           🪄
         </button>
-        <button type="button" className={"option " + (isSet ? "disabled" : "")} disabled={isSet} onMouseDown={newAuthor}>
+        <button type="button" className={"option " + (isSet ? "disabled" : "active")} disabled={isSet} onMouseDown={newAuthor}>
           ➕
         </button>
         <button type="button" className="option" onMouseDown={handleSelectAuthorsMouseDown}>

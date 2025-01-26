@@ -1,15 +1,20 @@
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import { useContext } from "react";
 
-export default function ConfirmPublishModal({setShowConfirmPublishModal, publishStory}) {
-    const { setCollectedMidEditAuthors, setCollectedMidEditComments, setSubmitEditingFields } = useContext(storyCreationContext);
+export default function ConfirmPublishModal({ setShowConfirmPublish, setShowOptionsPublish }) {
+  const { setCollectedMidEditAuthors, setCollectedMidEditComments, setSubmitEditingFields } = useContext(storyCreationContext);
 
-    const handleRejectPublish = () => {
-        setCollectedMidEditAuthors({isSet: false});
-        setCollectedMidEditComments({isSet: false});
-        setSubmitEditingFields(false);
-        setShowConfirmPublishModal(false);
-    }
+  const handleContinuePublish = () => {
+    setShowOptionsPublish(true);
+    setShowConfirmPublish(false);
+  };
+
+  const handleRejectPublish = () => {
+    setCollectedMidEditAuthors({ isSet: false });
+    setCollectedMidEditComments({ isSet: false });
+    setSubmitEditingFields(false);
+    setShowConfirmPublish(false);
+  };
 
   return (
     <div
@@ -27,11 +32,11 @@ export default function ConfirmPublishModal({setShowConfirmPublishModal, publish
           <p>It looks like you didn't finish editing some author names or messages content.</p>
           <p>Are you sure you want to go ahead and publish everything as it is?</p>
           <div>
-            <button onClick={publishStory}>Yes, publish</button>
+            <button onClick={handleContinuePublish}>Yes, publish</button>
             <button onClick={handleRejectPublish}>No, go back</button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

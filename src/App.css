@@ -273,3 +273,30 @@ h4.pov {
 .message.pov {
   background-color: rgb(182, 250, 180);
 }
+
+div.disabled {
+  color: #b1b1b1;
+  text-decoration: line-through;
+}
+
+.tooltip { 
+  position: relative; 
+
+  &.active::after { 
+    content: attr(data-tooltip); 
+    display: none; 
+    position: absolute; 
+    bottom: 100%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    background-color: #000; 
+    color: #fff; 
+    padding: 5px; 
+    border-radius: 5px; 
+    white-space: nowrap; 
+  } 
+
+  &.active:hover::after { 
+    display: block; 
+  } 
+} 
