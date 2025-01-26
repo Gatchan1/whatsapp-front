@@ -8,34 +8,44 @@ export default function StoryPage() {
   const { storyId } = useParams();
   const [story, setStory] = useState(null);
   const [povAuthor, setPovAuthor] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const parseStory = (json) => {
     const parsedStory = JSON.parse(json);
     parsedStory.forEach((element) => {
-        const date = new Date(element[0]);
-        element[0] = new Intl.DateTimeFormat("en", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-          }).format(date);
+      const date = new Date(element[0]);
+      element[0] = new Intl.DateTimeFormat("en", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      }).format(date);
     });
     return parsedStory;
   };
 
   useEffect(() => {
+    setErrorMessage("");
+
+    const isObjectId = storyId.length === 24;
+    let retrievalUrl = `${baseUrl}/story/${storyId}`;
+    if (!isObjectId) retrievalUrl += "/link"; // If storyId isn't the ObjectId then we consider it's the uuid.
+
     axios
-      .get(`${baseUrl}/story/${storyId}`)
-      .then(({ data }) => {
+      .get(retrievalUrl)
+      .then((resp) => {
+        console.log("resp!!! ", resp);
+        const data = resp.data;
         console.log(data);
         setStory(parseStory(data.body));
         setPovAuthor(data.pov);
       })
       .catch((err) => {
         console.log(err);
+        setErrorMessage("The story you’re looking for could not be found. Please check the URL or try again later.");
       });
-  }, []);
+  }, [storyId]);
 
   return (
     <div>
@@ -51,6 +61,7 @@ export default function StoryPage() {
             </div>
           );
         })}
+      {errorMessage && <p>{errorMessage}</p>}
     </div>
   );
 }

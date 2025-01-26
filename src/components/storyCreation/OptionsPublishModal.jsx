@@ -15,6 +15,7 @@ export default function OptionsPublishModal({ setShowOptionsPublish }) {
   useEffect(() => {
     let areValuesSet;
     if (!isLoggedIn) {
+      setIsStorySigned(false);
       areValuesSet = isStoryPrivate !== null;
     } else {
       areValuesSet = isStoryPrivate ? true : isStorySigned !== null;
@@ -30,7 +31,7 @@ export default function OptionsPublishModal({ setShowOptionsPublish }) {
           <label htmlFor="public">Public</label>
           <input type="radio" id="public" name="privacity" onChange={()=> setIsStoryPrivate(false)} checked={!isStoryPrivate && isStoryPrivate !== null}/>
           <label htmlFor="private">Private</label>
-          <input type="radio" id="private" name="privacity" onChange={()=> {setIsStoryPrivate(true)}} checked={isStoryPrivate}/>
+          <input type="radio" id="private" name="privacity" onChange={()=> setIsStoryPrivate(true)} checked={isStoryPrivate}/>
         </form>
       </div>
     );
@@ -78,8 +79,8 @@ export default function OptionsPublishModal({ setShowOptionsPublish }) {
     axios
       .post(`${baseUrl}/story/`, data)
       .then(({ data }) => {
-        console.log("story created", data, "\n and pov is ", chosenPov);
-        navigate("/story/" + data._id);
+        if (isStoryPrivate) navigate("/story/" + data.uuid);
+        else navigate("/story/" + data._id);
       })
       .catch((err) => {
         console.log(err);
