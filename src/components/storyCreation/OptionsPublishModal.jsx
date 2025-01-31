@@ -31,7 +31,10 @@ export default function OptionsPublishModal({ setShowOptionsPublish }) {
           <label htmlFor="public">Public</label>
           <input type="radio" id="public" name="privacity" onChange={()=> setIsStoryPrivate(false)} checked={!isStoryPrivate && isStoryPrivate !== null}/>
           <label htmlFor="private">Private</label>
-          <input type="radio" id="private" name="privacity" onChange={()=> setIsStoryPrivate(true)} checked={isStoryPrivate}/>
+          <input type="radio" id="private" name="privacity" onChange={()=> {
+            setIsStoryPrivate(true);
+            setIsStorySigned(null);
+            }} checked={isStoryPrivate}/>
         </form>
       </div>
     );
@@ -73,7 +76,8 @@ export default function OptionsPublishModal({ setShowOptionsPublish }) {
       body: JSON.stringify(cleanStory),
       pov: chosenPov,
       private: isStoryPrivate,
-      signed: isStorySigned === null ? true : isStorySigned,
+      signed: isStorySigned ? true : false,
+      ...(isLoggedIn && { user: user._id }), 
       tags: [],
     };
     axios

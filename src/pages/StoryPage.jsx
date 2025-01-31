@@ -7,7 +7,7 @@ export default function StoryPage() {
   const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
   const { storyId } = useParams();
   const [story, setStory] = useState(null);
-  const [povAuthor, setPovAuthor] = useState("");
+  const [storyInfo, setStoryInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const parseStory = (json) => {
@@ -35,25 +35,25 @@ export default function StoryPage() {
     axios
       .get(retrievalUrl)
       .then((resp) => {
-        console.log("resp!!! ", resp);
         const data = resp.data;
-        console.log(data);
+        setStoryInfo(data);
         setStory(parseStory(data.body));
-        setPovAuthor(data.pov);
       })
       .catch((err) => {
-        console.log(err);
-        setErrorMessage("The story you’re looking for could not be found. Please check the URL or try again later.");
+        console.log("el error!", err);
+        if (err.code == "ERR_BAD_REQUEST" && err.response.status === 404) setErrorMessage("The story you’re looking for could not be found. Please check the URL.");
+        else setErrorMessage("Ooops! Something wrong happened. Please try again later.");
       });
   }, [storyId]);
 
   return (
     <div>
       <h3>StoryPage</h3>
+      {storyInfo && storyInfo.signed && <p>Author: {storyInfo.user.name}</p>}
       {story &&
         story.map((message, i) => {
           return (
-            <div key={i} className={"message " + (message[1] == povAuthor ? "pov" : "")}>
+            <div key={i} className={"message " + (message[1] == storyInfo.pov ? "pov" : "")}>
               <p>{message[0]}</p>
               <p>{message[1]}</p>
               <p>{message[2]}</p>
