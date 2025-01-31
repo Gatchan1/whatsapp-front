@@ -4,7 +4,7 @@ export default function Alert({ message, setError }) {
   };
 
   return (
-    <div>
+    <div className="alert">
       <p>{message}</p>
       <button type="button" className="auth alert" onClick={dismissErrorHandler}>
         Okay

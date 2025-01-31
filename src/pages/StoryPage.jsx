@@ -49,9 +49,8 @@ export default function StoryPage() {
   return (
     <div>
       <h3>StoryPage</h3>
-      {storyInfo && storyInfo.signed && <p>Author: {storyInfo.user.name}</p>}
-      {story &&
-        story.map((message, i) => {
+      {storyInfo?.signed && <p>Author: {storyInfo.user.name}</p>}
+      {story?.map((message, i) => {
           return (
             <div key={i} className={"message " + (message[1] == storyInfo.pov ? "pov" : "")}>
               <p>{message[0]}</p>
