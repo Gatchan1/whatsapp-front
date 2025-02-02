@@ -1,34 +1,41 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { storyCreationContext } from "../../contexts/storyCreation.context";
 import EditAuthorMessage from "./authorEditing/EditAuthorMessage";
 import EditComment from "./EditComment";
 import EditTime from "./timeEditing/EditTime";
 import AlertDeleteMessage from "./AlertDeleteMessage";
 
-export default function Message({ message, index }) {
+export default function Message({ message, index, setMessageHeight }) {
   const { story, setStory, storyCopy } = useContext(storyCreationContext);
   const [isShiftPressed, setIsShiftPressed] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const messageRef = useRef(null);
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (messageRef.current) {
+      setMessageHeight(messageRef.current.offsetHeight);
+    }
+  }, [message]);
+
+  useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Shift') {
+      if (event.key === "Shift") {
         setIsShiftPressed(true);
       }
     };
     const handleKeyUp = (event) => {
-      if (event.key === 'Shift') {
+      if (event.key === "Shift") {
         setIsShiftPressed(false);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
-  },[])
+  }, []);
 
   const deleteHandler = () => {
     if (isShiftPressed) {
@@ -36,25 +43,27 @@ export default function Message({ message, index }) {
     } else {
       setShowDeleteAlert(true);
     }
-  }
+  };
 
   const deleteMessage = () => {
     const newStory = storyCopy();
     newStory.splice(index, 1);
     setStory(newStory);
     setShowDeleteAlert(false);
-  }
+  };
 
   return (
-    <div className="row">
+    <div className="row" ref={messageRef}>
       <div>
         <EditTime checkbox={message[0]} time={message[2]} index={index} />
-        <div className="row left-margin">
+        <div className="row">
           <EditAuthorMessage author={message[3]} index={index} />
           <EditComment comment={message[4]} index={index} />
         </div>
       </div>
-      <button className="delete" onClick={deleteHandler}>x</button>
+      <button className="delete" onClick={deleteHandler}>
+        x
+      </button>
       {showDeleteAlert && <AlertDeleteMessage setShowDeleteAlert={setShowDeleteAlert} deleteMessage={deleteMessage} />}
     </div>
   );

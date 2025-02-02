@@ -55,6 +55,7 @@ export default function StoryWrite() {
       <h3>StoryWrite</h3>
       {showScrollPanel && <TimeDelayPanel />}
       {tempStory && tempStory.map((message, i) => <MessageBundle key={message[1]} index={i} message={message} />)}
+      <div className="drop-zone"></div>
       <br />
       <p>Add new message:</p>
       <NewMessage />

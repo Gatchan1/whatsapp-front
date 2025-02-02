@@ -57,6 +57,10 @@ button.disabled:hover {
   right: -38px;
 }
 
+.align-center {
+  align-items: center;
+}
+
 /* --------------------------------------- Navbar --------------------------------------- */
 nav {
   display: flex;
@@ -123,13 +127,13 @@ div.alert {
   top: 3px;
   right: 1px;
 }
-#chevrons button.up {
+.chevrons button.up {
   background-image: url("chevron-up.png");
 }
-#chevrons button.down {
+.chevrons button.down {
   background-image: url("chevron-down.png");
 }
-#chevrons button {
+.chevrons button {
   border: none;
   padding: 0;
   margin: 0;
@@ -140,10 +144,10 @@ div.alert {
   background-position: 2px;
   background-color: #f0f0f0;
 }
-#chevrons button:hover {
+.chevrons button:hover {
   background-color: #dbdbdb;
 }
-#chevrons button:active {
+.chevrons button:active {
   background-color: #ffffff;
 }
 
@@ -270,6 +274,9 @@ h4.pov {
   width: 300px;
 }
 
+.draggable-message.pov {
+  background-color: rgb(228, 255, 227);
+}
 .message.pov {
   background-color: rgb(182, 250, 180);
 }
@@ -279,24 +286,63 @@ div.disabled {
   text-decoration: line-through;
 }
 
-.tooltip { 
-  position: relative; 
+.tooltip {
+  position: relative;
 
-  &.active::after { 
-    content: attr(data-tooltip); 
-    display: none; 
-    position: absolute; 
-    bottom: 100%; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    background-color: #000; 
-    color: #fff; 
-    padding: 5px; 
-    border-radius: 5px; 
-    white-space: nowrap; 
-  } 
+  &.active::after {
+    content: attr(data-tooltip);
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
 
-  &.active:hover::after { 
-    display: block; 
-  } 
-} 
+  &.active:hover::after {
+    display: block;
+  }
+}
+
+.grip {
+  background-image: url("grip.svg");
+  background-repeat:space;
+  background-size: 80%;
+  background-position: center;
+  filter: opacity(50%);
+  border: none;
+  width: 20px;
+  height: 54px;
+  margin-right: 5px;
+  &:hover {
+    cursor: grab;
+    background-color: #ccc;
+  }
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.draggable-message {
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  &.above {
+    z-index: 1;
+  }
+}
+
+.drop-zone {
+  position: absolute;
+  margin: 9px 0;
+  height: 5px;
+  width: 400px;
+  background-color: rgb(157, 157, 255);
+  left: 50px;
+}

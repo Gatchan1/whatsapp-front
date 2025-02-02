@@ -96,7 +96,7 @@ export default function InputDelay({ delay, setDelay, unit }) {
         }}
       />
       {isHover && (
-        <div className="column absolute" id="chevrons">
+        <div className="column absolute chevrons">
           <button
             className="up"
             onClick={() => {
