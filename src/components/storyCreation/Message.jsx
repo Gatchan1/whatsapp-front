@@ -5,17 +5,10 @@ import EditComment from "./EditComment";
 import EditTime from "./timeEditing/EditTime";
 import AlertDeleteMessage from "./AlertDeleteMessage";
 
-export default function Message({ message, index, setMessageHeight }) {
+export default function Message({ message, index }) {
   const { story, setStory, storyCopy } = useContext(storyCreationContext);
   const [isShiftPressed, setIsShiftPressed] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const messageRef = useRef(null);
-
-  useEffect(() => {
-    if (messageRef.current) {
-      setMessageHeight(messageRef.current.offsetHeight);
-    }
-  }, [message]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -53,7 +46,7 @@ export default function Message({ message, index, setMessageHeight }) {
   };
 
   return (
-    <div className="row" ref={messageRef}>
+    <div className="row">
       <div>
         <EditTime checkbox={message[0]} time={message[2]} index={index} />
         <div className="row">

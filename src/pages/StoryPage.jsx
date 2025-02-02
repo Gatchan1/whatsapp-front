@@ -3,27 +3,37 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { authContext } from "../contexts/auth.context";
 
+const parseStory = (json) => {
+  const parsedStory = JSON.parse(json);
+  parsedStory.forEach((element) => {
+    const date = new Date(element[0]);
+    element[0] = new Intl.DateTimeFormat("en", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    }).format(date);
+  });
+  return parsedStory;
+};
+
 export default function StoryPage() {
-  const { baseUrl, authenticateUser, isLoggedIn } = useContext(authContext);
+  const { baseUrl, authenticateUser, isLoggedIn, setIsDragging } = useContext(authContext);
   const { storyId } = useParams();
   const [story, setStory] = useState(null);
   const [storyInfo, setStoryInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const parseStory = (json) => {
-    const parsedStory = JSON.parse(json);
-    parsedStory.forEach((element) => {
-      const date = new Date(element[0]);
-      element[0] = new Intl.DateTimeFormat("en", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      }).format(date);
-    });
-    return parsedStory;
-  };
+  const handleMouseUp = () => setIsDragging(false);
+
+  useEffect(() => {
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [])
 
   useEffect(() => {
     setErrorMessage("");

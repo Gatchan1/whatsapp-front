@@ -308,9 +308,10 @@ div.disabled {
   }
 }
 
-.grip {
+.grip,
+.grip-static {
   background-image: url("grip.svg");
-  background-repeat:space;
+  background-repeat: space;
   background-size: 80%;
   background-position: center;
   filter: opacity(50%);
@@ -318,6 +319,8 @@ div.disabled {
   width: 20px;
   height: 54px;
   margin-right: 5px;
+}
+.grip {
   &:hover {
     cursor: grab;
     background-color: #ccc;
@@ -327,19 +330,22 @@ div.disabled {
   }
 }
 
-.draggable-message {
-  position: absolute;
+.message,
+.drag-message {
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  &.above {
-    z-index: 1;
-  }
+}
+
+.drag-message {
+  position: fixed;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .drop-zone {
-  position: absolute;
   margin: 9px 0;
   height: 5px;
   width: 400px;
